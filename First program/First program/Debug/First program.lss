@@ -3,29 +3,29 @@ First program.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000184  2**0
+  0 .data         00000000  00800200  00800200  00000208  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000130  00000000  00000000  00000054  2**1
+  1 .text         000001b4  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000184  2**0
+  2 .comment      00000030  00000000  00000000  00000208  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001b4  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000238  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  000001f4  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000278  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000d00  00000000  00000000  00000214  2**0
+  5 .debug_info   00000e56  00000000  00000000  00000298  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000c02  00000000  00000000  00000f14  2**0
+  6 .debug_abbrev 00000c02  00000000  00000000  000010ee  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000332  00000000  00000000  00001b16  2**0
+  7 .debug_line   000003ce  00000000  00000000  00001cf0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00001e48  2**2
+  8 .debug_frame  00000024  00000000  00000000  000020c0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000563  00000000  00000000  00001e6c  2**0
+  9 .debug_str    00000563  00000000  00000000  000020e4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  000023cf  2**0
+ 10 .debug_loc    000001f8  00000000  00000000  00002647  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00002417  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  0000283f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -156,7 +156,7 @@ Disassembly of section .text:
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
   f4:	02 d0       	rcall	.+4      	; 0xfa <main>
-  f6:	1a c0       	rjmp	.+52     	; 0x12c <_exit>
+  f6:	5c c0       	rjmp	.+184    	; 0x1b0 <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
@@ -167,13 +167,13 @@ Disassembly of section .text:
 
 int main(void)
 {
-	DDRA = 0xff; // alles ausgang
+    DDRA = 0xff; // alles ausgang
   fa:	8f ef       	ldi	r24, 0xFF	; 255
   fc:	81 b9       	out	0x01, r24	; 1
-	while(1)
-	{
-		PORTA = 0xf0; //rechte LEDs
-  fe:	80 ef       	ldi	r24, 0xF0	; 240
+    while(1)
+    {
+        PORTA = 0b10000000; //rechte LEDs
+  fe:	80 e8       	ldi	r24, 0x80	; 128
  100:	82 b9       	out	0x02, r24	; 2
 	#else
 		//round up by default
@@ -182,31 +182,109 @@ int main(void)
 
 	__builtin_avr_delay_cycles(__ticks_dc);
  102:	2f ef       	ldi	r18, 0xFF	; 255
- 104:	89 e6       	ldi	r24, 0x69	; 105
- 106:	98 e1       	ldi	r25, 0x18	; 24
+ 104:	84 e6       	ldi	r24, 0x64	; 100
+ 106:	94 e0       	ldi	r25, 0x04	; 4
  108:	21 50       	subi	r18, 0x01	; 1
  10a:	80 40       	sbci	r24, 0x00	; 0
  10c:	90 40       	sbci	r25, 0x00	; 0
  10e:	e1 f7       	brne	.-8      	; 0x108 <main+0xe>
  110:	00 c0       	rjmp	.+0      	; 0x112 <main+0x18>
  112:	00 00       	nop
-		_delay_ms(500); //leuchten lassen
-		PORTA = 0x0f;  //linke LEDs
- 114:	8f e0       	ldi	r24, 0x0F	; 15
+        _delay_ms(90); //leuchten lassen
+        PORTA = 0b01000000;  //linke LEDs
+ 114:	80 e4       	ldi	r24, 0x40	; 64
  116:	82 b9       	out	0x02, r24	; 2
  118:	2f ef       	ldi	r18, 0xFF	; 255
- 11a:	89 e6       	ldi	r24, 0x69	; 105
- 11c:	98 e1       	ldi	r25, 0x18	; 24
+ 11a:	8a e6       	ldi	r24, 0x6A	; 106
+ 11c:	93 e0       	ldi	r25, 0x03	; 3
  11e:	21 50       	subi	r18, 0x01	; 1
  120:	80 40       	sbci	r24, 0x00	; 0
  122:	90 40       	sbci	r25, 0x00	; 0
  124:	e1 f7       	brne	.-8      	; 0x11e <main+0x24>
  126:	00 c0       	rjmp	.+0      	; 0x128 <main+0x2e>
  128:	00 00       	nop
- 12a:	e9 cf       	rjmp	.-46     	; 0xfe <main+0x4>
+        _delay_ms(70);  //leuchten lassen
+        PORTA = 0b00100000;
+ 12a:	80 e2       	ldi	r24, 0x20	; 32
+ 12c:	82 b9       	out	0x02, r24	; 2
+ 12e:	2f e7       	ldi	r18, 0x7F	; 127
+ 130:	8f ea       	ldi	r24, 0xAF	; 175
+ 132:	92 e0       	ldi	r25, 0x02	; 2
+ 134:	21 50       	subi	r18, 0x01	; 1
+ 136:	80 40       	sbci	r24, 0x00	; 0
+ 138:	90 40       	sbci	r25, 0x00	; 0
+ 13a:	e1 f7       	brne	.-8      	; 0x134 <main+0x3a>
+ 13c:	00 c0       	rjmp	.+0      	; 0x13e <main+0x44>
+ 13e:	00 00       	nop
+        _delay_ms(55);
+        PORTA = 0b00010000;
+ 140:	80 e1       	ldi	r24, 0x10	; 16
+ 142:	82 b9       	out	0x02, r24	; 2
+ 144:	2f ef       	ldi	r18, 0xFF	; 255
+ 146:	83 ef       	ldi	r24, 0xF3	; 243
+ 148:	91 e0       	ldi	r25, 0x01	; 1
+ 14a:	21 50       	subi	r18, 0x01	; 1
+ 14c:	80 40       	sbci	r24, 0x00	; 0
+ 14e:	90 40       	sbci	r25, 0x00	; 0
+ 150:	e1 f7       	brne	.-8      	; 0x14a <main+0x50>
+ 152:	00 c0       	rjmp	.+0      	; 0x154 <main+0x5a>
+ 154:	00 00       	nop
+        _delay_ms(40);
+        PORTA = 0b00001000;
+ 156:	88 e0       	ldi	r24, 0x08	; 8
+ 158:	82 b9       	out	0x02, r24	; 2
+ 15a:	2f ef       	ldi	r18, 0xFF	; 255
+ 15c:	86 e7       	ldi	r24, 0x76	; 118
+ 15e:	91 e0       	ldi	r25, 0x01	; 1
+ 160:	21 50       	subi	r18, 0x01	; 1
+ 162:	80 40       	sbci	r24, 0x00	; 0
+ 164:	90 40       	sbci	r25, 0x00	; 0
+ 166:	e1 f7       	brne	.-8      	; 0x160 <main+0x66>
+ 168:	00 c0       	rjmp	.+0      	; 0x16a <main+0x70>
+ 16a:	00 00       	nop
+        _delay_ms(30);
+        PORTA = 0b00000100;
+ 16c:	84 e0       	ldi	r24, 0x04	; 4
+ 16e:	82 b9       	out	0x02, r24	; 2
+ 170:	2f ef       	ldi	r18, 0xFF	; 255
+ 172:	86 e7       	ldi	r24, 0x76	; 118
+ 174:	91 e0       	ldi	r25, 0x01	; 1
+ 176:	21 50       	subi	r18, 0x01	; 1
+ 178:	80 40       	sbci	r24, 0x00	; 0
+ 17a:	90 40       	sbci	r25, 0x00	; 0
+ 17c:	e1 f7       	brne	.-8      	; 0x176 <main+0x7c>
+ 17e:	00 c0       	rjmp	.+0      	; 0x180 <main+0x86>
+ 180:	00 00       	nop
+        _delay_ms(30);
+        PORTA = 0b00000010;
+ 182:	82 e0       	ldi	r24, 0x02	; 2
+ 184:	82 b9       	out	0x02, r24	; 2
+ 186:	2f ef       	ldi	r18, 0xFF	; 255
+ 188:	89 ef       	ldi	r24, 0xF9	; 249
+ 18a:	90 e0       	ldi	r25, 0x00	; 0
+ 18c:	21 50       	subi	r18, 0x01	; 1
+ 18e:	80 40       	sbci	r24, 0x00	; 0
+ 190:	90 40       	sbci	r25, 0x00	; 0
+ 192:	e1 f7       	brne	.-8      	; 0x18c <main+0x92>
+ 194:	00 c0       	rjmp	.+0      	; 0x196 <main+0x9c>
+ 196:	00 00       	nop
+        _delay_ms(20);
+        PORTA = 0b00000001;
+ 198:	81 e0       	ldi	r24, 0x01	; 1
+ 19a:	82 b9       	out	0x02, r24	; 2
+ 19c:	2f ef       	ldi	r18, 0xFF	; 255
+ 19e:	89 ef       	ldi	r24, 0xF9	; 249
+ 1a0:	90 e0       	ldi	r25, 0x00	; 0
+ 1a2:	21 50       	subi	r18, 0x01	; 1
+ 1a4:	80 40       	sbci	r24, 0x00	; 0
+ 1a6:	90 40       	sbci	r25, 0x00	; 0
+ 1a8:	e1 f7       	brne	.-8      	; 0x1a2 <main+0xa8>
+ 1aa:	00 c0       	rjmp	.+0      	; 0x1ac <main+0xb2>
+ 1ac:	00 00       	nop
+ 1ae:	a7 cf       	rjmp	.-178    	; 0xfe <main+0x4>
 
-0000012c <_exit>:
- 12c:	f8 94       	cli
+000001b0 <_exit>:
+ 1b0:	f8 94       	cli
 
-0000012e <__stop_program>:
- 12e:	ff cf       	rjmp	.-2      	; 0x12e <__stop_program>
+000001b2 <__stop_program>:
+ 1b2:	ff cf       	rjmp	.-2      	; 0x1b2 <__stop_program>
