@@ -6,6 +6,8 @@
  */ 
 
 #include <avr/io.h>
+#define F_CPU 16000000UL
+#include <util/delay.h>
 
 
 int main(void)
@@ -15,8 +17,7 @@ int main(void)
 	{
 		PORTA = 0xf0; //rechte LEDs
 		_delay_ms(500); //leuchten lassen
-		PORTA = 0x0f  //linke LEDs
-		_delay_ms(500)  //leuchten lassen
+		PORTA = 0x0f;  //linke LEDs
+		_delay_ms(500);  //leuchten lassen
 
 }
-
