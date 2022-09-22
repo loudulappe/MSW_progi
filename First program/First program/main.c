@@ -19,5 +19,5 @@ int main(void)
 		_delay_ms(500); //leuchten lassen
 		PORTA = 0x0f;  //linke LEDs
 		_delay_ms(500);  //leuchten lassen
-
+		}
 }
