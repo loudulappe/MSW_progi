@@ -12,12 +12,12 @@
 
 int main(void)
 {
-	DDRA = 0xff; // alles ausgang
-	while(1)
-	{
-		PORTA = 0xf0; //rechte LEDs
-		_delay_ms(500); //leuchten lassen
-		PORTA = 0x0f;  //linke LEDs
-		_delay_ms(500);  //leuchten lassen
-		}
+    DDRA = 0xff; // alles ausgang
+    while(1)
+    {
+        PORTA = 0xf0; //rechte LEDs
+        _delay_ms(500); //leuchten lassen
+        PORTA = 0x0f;  //linke LEDs
+        _delay_ms(500);  //leuchten lassen
+    }
 }
