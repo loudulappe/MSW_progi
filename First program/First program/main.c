@@ -13,6 +13,8 @@
 int main(void)
 {
     DDRA = 0xff; // alles ausgang
+    DDRH = 0b00111000;
+    PORTH = 0;
     while(1)
     {
         PORTA = 0b10000000; //rechte LEDs
