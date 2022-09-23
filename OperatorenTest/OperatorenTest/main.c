@@ -50,5 +50,6 @@ int main(void)
         _delay_ms(1000);
         PORTA = 4 !=4;
         _delay_ms(1000);
+        if PORTA = true, 
     }
 }
