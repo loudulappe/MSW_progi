@@ -16,19 +16,22 @@
 
 int main(void)
 {
-    uint8_t zaehler = 0;
+    uint8_t counter = 0;
+    uint8_t i = 0;
     DDRA = 0xff;
     DDRB = 0xff;
-    for (zaehler = 0; zaehler < 10; zaehler++)
+    while (1)
     {
-        PORTA = 0;
-        PORTB = 0; 
-        _delay_ms(500);
-        PORTA = 255;
-        PORTB = 255;
-        _delay_ms(500); 
-        //zaehler = zaehler + 1;
-    }   
+        counter = 0;
+        for (i = 0; i < 10; i++)
+        {
+            PORTA = counter;
+            PORTB = 0; 
+            _delay_ms(1000);
+            counter = counter + 1;
+        }        
+    }
+       
 }
 
 
