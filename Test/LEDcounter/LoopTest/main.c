@@ -26,7 +26,7 @@ int main(void)
         for (i = 0; i < 9999999999; i++)
         {
             PORTA = counter;
-            _delay_ms(30);
+            _delay_ms(100);
             counter = counter + 1;
             PORTB = (counter >> 8);           
         }        

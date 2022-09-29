@@ -1,31 +1,29 @@
 
-LoopTest.elf:     file format elf32-avr
+ADtreiber.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000176  2**0
+  0 .data         00000000  00800200  00800200  00000160  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000122  00000000  00000000  00000054  2**1
+  1 .text         0000010c  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000176  2**0
+  2 .comment      00000030  00000000  00000000  00000160  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001a8  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000190  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  000001e8  2**0
+  4 .debug_aranges 00000030  00000000  00000000  000001d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000cec  00000000  00000000  00000208  2**0
+  5 .debug_info   00000ca9  00000000  00000000  00000200  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000bf4  00000000  00000000  00000ef4  2**0
+  6 .debug_abbrev 00000bc8  00000000  00000000  00000ea9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000033b  00000000  00000000  00001ae8  2**0
+  7 .debug_line   000002d7  00000000  00000000  00001a71  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00001e24  2**2
+  8 .debug_frame  00000044  00000000  00000000  00001d48  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000571  00000000  00000000  00001e48  2**0
+  9 .debug_str    00000541  00000000  00000000  00001d8c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000080  00000000  00000000  000023b9  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00002439  2**0
+ 10 .debug_ranges 00000020  00000000  00000000  000022cd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -155,56 +153,38 @@ Disassembly of section .text:
   ee:	cd bf       	out	0x3d, r28	; 61
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
-  f4:	02 d0       	rcall	.+4      	; 0xfa <main>
-  f6:	13 c0       	rjmp	.+38     	; 0x11e <_exit>
+  f4:	05 d0       	rcall	.+10     	; 0x100 <main>
+  f6:	08 c0       	rjmp	.+16     	; 0x108 <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
 
-000000fa <main>:
-
-int main(void)
+000000fa <ledWriteAll>:
+     DDRA = 0xff;
+     DDRB = 0xff;
+}
+void ledWriteAll(uint16_t bitmuster)
 {
-    uint16_t i = 0;
-    uint16_t counter = 0;
-    DDRA = 0xff;
-  fa:	8f ef       	ldi	r24, 0xFF	; 255
-  fc:	81 b9       	out	0x01, r24	; 1
-    DDRB = 0xff;
-  fe:	84 b9       	out	0x04, r24	; 4
-    while (1)
+    PORTA = bitmuster;
+  fa:	82 b9       	out	0x02, r24	; 2
+    PORTB = bitmuster >>8;
+  fc:	95 b9       	out	0x05, r25	; 5
+  fe:	08 95       	ret
+
+00000100 <main>:
+int main(void)
+{    
+    while (1) 
     {
-        counter = 0;
- 100:	80 e0       	ldi	r24, 0x00	; 0
- 102:	90 e0       	ldi	r25, 0x00	; 0
-        for (i = 0; i < 9999999999; i++)
-        {
-            PORTA = counter;
- 104:	82 b9       	out	0x02, r24	; 2
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+        initBoard;
+        ledWriteAll(1400);
+ 100:	88 e7       	ldi	r24, 0x78	; 120
+ 102:	95 e0       	ldi	r25, 0x05	; 5
+ 104:	fa df       	rcall	.-12     	; 0xfa <ledWriteAll>
+ 106:	fc cf       	rjmp	.-8      	; 0x100 <main>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
- 106:	2f ef       	ldi	r18, 0xFF	; 255
- 108:	31 ee       	ldi	r19, 0xE1	; 225
- 10a:	44 e0       	ldi	r20, 0x04	; 4
- 10c:	21 50       	subi	r18, 0x01	; 1
- 10e:	30 40       	sbci	r19, 0x00	; 0
- 110:	40 40       	sbci	r20, 0x00	; 0
- 112:	e1 f7       	brne	.-8      	; 0x10c <main+0x12>
- 114:	00 c0       	rjmp	.+0      	; 0x116 <main+0x1c>
- 116:	00 00       	nop
-            _delay_ms(100);
-            counter = counter + 1;
- 118:	01 96       	adiw	r24, 0x01	; 1
-            PORTB = (counter >> 8);           
- 11a:	95 b9       	out	0x05, r25	; 5
- 11c:	f3 cf       	rjmp	.-26     	; 0x104 <main+0xa>
+00000108 <_exit>:
+ 108:	f8 94       	cli
 
-0000011e <_exit>:
- 11e:	f8 94       	cli
-
-00000120 <__stop_program>:
- 120:	ff cf       	rjmp	.-2      	; 0x120 <__stop_program>
+0000010a <__stop_program>:
+ 10a:	ff cf       	rjmp	.-2      	; 0x10a <__stop_program>
