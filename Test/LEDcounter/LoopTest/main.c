@@ -16,19 +16,19 @@
 
 int main(void)
 {
-    uint8_t counter = 0;
-    uint8_t i = 0;
+    uint16_t i = 0;
+    uint16_t counter = 0;
     DDRA = 0xff;
     DDRB = 0xff;
     while (1)
     {
         counter = 0;
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < 9999999999; i++)
         {
             PORTA = counter;
-            PORTB = 0; 
-            _delay_ms(1000);
+            _delay_ms(30);
             counter = counter + 1;
+            PORTB = (counter >> 8);           
         }        
     }
        
