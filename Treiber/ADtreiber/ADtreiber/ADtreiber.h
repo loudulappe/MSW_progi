@@ -3,6 +3,7 @@
  *
  * Created: 29.09.2022 14:32:43
  *  Author: e1Derung
+ * https://github.com/loudulappe/MSW_progi/blob/main/Treiber/ADtreiber/ADtreiber/ADtreiber.h
  */ 
 #include <avr/io.h>
 #define F_CPU 16000000UL

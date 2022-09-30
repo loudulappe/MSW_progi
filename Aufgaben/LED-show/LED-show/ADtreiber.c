@@ -20,12 +20,12 @@ void ledWrite(uint16_t ledNr0_15, uint8_t wert0_1)
 {
     if (wert0_1)
     {
-        PORTA = PORTA | 1<< (ledNr0_15-1);
+        PORTA = PORTA | 1<< (ledNr0_15);
         PORTB = PORTB | ((ledNr0_15>7)<<(ledNr0_15-8));
     } 
     else
     {
-        PORTA = PORTA & ~(1<< (ledNr0_15-1));
+        PORTA = PORTA & ~(1<< (ledNr0_15));
         PORTB = PORTB & ~((ledNr0_15>7)<<(ledNr0_15-8)) ;       
     }
 } 

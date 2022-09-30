@@ -6,48 +6,67 @@
  */ 
 
 #include "ADtreiber.h"
+void aufgabe1(void);
+void aufgabe2(void);
+void aufgabe3(void);
+void aufgabe4(void);
+void aufgabe5(void);
+void aufgabe6(void);
 
 int main(void)
 {
     initBoard();
-//1    
-//  while (1)
-//  {   
-//      uint8_t i = 0;
-//      for (i=0; i<16; i= i+1)
-//      {
-//          ledWriteAll(1<<i);
-//          _delay_ms(100);
-//      }               
-//  }
-//2 
-//  while (1)
-//  {    
-//      uint8_t i = 0;
-//      for (i=0; i<16; i= i+1)
-//      {
-//          ledWriteAll(1<<i);
-//          _delay_ms(100);  
-//      } 
-//      uint8_t e = 15;
-//      for (e=15; e>0; e= e-1)
-//      {
-//          ledWriteAll(1<<e);
-//          _delay_ms(100);
-//      }            
-//  }
-//3
     while (1)
     {
-        ledWriteAll(0);
-        uint8_t i=0;
-        for (i=0; i<16; i=i+1)
-        {
-            PORTA=PORTA|1<<i;
-            PORTB=PORTB|((i>7)<<(i-8));
-            _delay_ms(500);
-        }
+        aufgabe4();
     }
-        
+
 }
 
+void aufgabe1(void)
+{
+    uint8_t i = 0;
+    for (i=0; i<16; i= i+1)
+    {
+        ledWriteAll(1<<i);
+        _delay_ms(100);
+    }
+}
+
+void aufgabe2(void)
+{
+    uint8_t i = 0;
+    for (i=0; i<16; i= i+1)
+    {
+        ledWriteAll(1<<i);
+        _delay_ms(100);
+    }
+    uint8_t e = 15;
+    for (e=15; e>0; e= e-1)
+    {
+        ledWriteAll(1<<e);
+        _delay_ms(100);
+    }
+}
+
+void aufgabe3(void)
+{
+    ledWriteAll(0);
+    uint8_t i=0;
+    for (i=0; i<16; i=i+1)
+    {
+        PORTA=PORTA|1<<i;
+        PORTB=PORTB|((i>7)<<(i-8));
+        _delay_ms(100);
+    }
+}
+
+void aufgabe4(void)
+{
+    uint8_t i=0;
+    for (i=0; i<16; i=i+1)
+    {
+        ledWriteAll(ledReadAll()^(1<<i));
+        _delay_ms(100);
+    }
+}
