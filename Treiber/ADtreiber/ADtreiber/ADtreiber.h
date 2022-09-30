@@ -17,7 +17,8 @@
 
 void initBoard (void);
 void ledWriteAll (uint16_t bitmuster);
-
+void ledWrite (uint16_t ledNr0_15, uint8_t wert0_1);
+uint16_t ledReadAll(void);
 
 
 

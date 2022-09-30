@@ -12,13 +12,15 @@
 int main(void)
 {    
     initBoard();
+    ledWriteAll(0);
+    
     
     while (1) 
     {
-        ledWriteAll(0x5555);
+        ledWrite(1, 0);
         _delay_ms(200);
-        ledWriteAll(~0x5555);
-        _delay_ms(200);
+        ledWrite(15, 0);
+        _delay_ms(400);
     }
 }
 
