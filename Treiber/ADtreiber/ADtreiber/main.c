@@ -5,30 +5,23 @@
  * Author : e1Derung
  */ 
 
-#include <avr/io.h>
-#define F_CPU 16000000UL
-#include <util/delay.h>
-void initBoard (void);
-void ledWriteAll (uint16_t bitmuster);
+#include "ADtreiber.h"
 
 
 
 int main(void)
 {    
+    initBoard();
+    
     while (1) 
     {
-        initBoard;
-        ledWriteAll(1400);
+        ledWriteAll(0x5555);
+        _delay_ms(200);
+        ledWriteAll(~0x5555);
+        _delay_ms(200);
     }
 }
-void initBoard(void)
-{
-     DDRA = 0xff;
-     DDRB = 0xff;
-}
-void ledWriteAll(uint16_t bitmuster)
-{
-    PORTA = bitmuster;
-    PORTB = bitmuster >>8;
-}
+
+
+
 
