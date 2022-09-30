@@ -219,7 +219,7 @@ Disassembly of section .text:
  16a:	c0 e9       	ldi	r28, 0x90	; 144
  16c:	d1 e0       	ldi	r29, 0x01	; 1
  16e:	61 e0       	ldi	r22, 0x01	; 1
- 170:	8d e0       	ldi	r24, 0x0D	; 13
+ 170:	8e e0       	ldi	r24, 0x0E	; 14
  172:	90 e0       	ldi	r25, 0x00	; 0
  174:	c9 df       	rcall	.-110    	; 0x108 <ledWrite>
  176:	80 ea       	ldi	r24, 0xA0	; 160
@@ -230,7 +230,7 @@ Disassembly of section .text:
  180:	01 97       	sbiw	r24, 0x01	; 1
  182:	d9 f7       	brne	.-10     	; 0x17a <main+0x18>
  184:	60 e0       	ldi	r22, 0x00	; 0
- 186:	8d e0       	ldi	r24, 0x0D	; 13
+ 186:	8e e0       	ldi	r24, 0x0E	; 14
  188:	90 e0       	ldi	r25, 0x00	; 0
  18a:	be df       	rcall	.-132    	; 0x108 <ledWrite>
  18c:	80 ea       	ldi	r24, 0xA0	; 160

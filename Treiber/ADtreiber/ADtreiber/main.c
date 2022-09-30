@@ -17,9 +17,9 @@ int main(void)
     
     while (1) 
     {
-        ledWrite(13, 1);
+        ledWrite(14, 1);
         _delay_ms(400);
-        ledWrite(13, 0);
+        ledWrite(14, 0);
         _delay_ms(400);
     }
 }
