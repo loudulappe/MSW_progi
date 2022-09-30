@@ -6,6 +6,7 @@
  */ 
 #include <avr/io.h>
 #define F_CPU 16000000UL
+#define __DELAY_BACKWARD_COMPATIBLE__
 #include <util/delay.h>
 
 
