@@ -70,3 +70,10 @@ void aufgabe4(void)
         _delay_ms(100);
     }
 }
+
+void aufgabe5(void)
+{
+    uint16_t goal =5000;
+    uint16_t prog =3000;
+    
+}
