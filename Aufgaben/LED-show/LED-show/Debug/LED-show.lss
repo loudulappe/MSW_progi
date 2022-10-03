@@ -224,8 +224,8 @@ void aufgabe4(void)
 	{
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
- 134:	88 ee       	ldi	r24, 0xE8	; 232
- 136:	93 e0       	ldi	r25, 0x03	; 3
+ 134:	84 ef       	ldi	r24, 0xF4	; 244
+ 136:	91 e0       	ldi	r25, 0x01	; 1
  138:	05 c0       	rjmp	.+10     	; 0x144 <aufgabe4+0x2e>
     milliseconds can be achieved.
  */
@@ -262,7 +262,7 @@ void aufgabe4(void)
  14c:	38 f3       	brcs	.-50     	; 0x11c <aufgabe4+0x6>
     {
         ledWriteAll(ledReadAll()^(1<<i));
-        _delay_ms(100);
+        _delay_ms(50);
     }
 }
  14e:	cf 91       	pop	r28

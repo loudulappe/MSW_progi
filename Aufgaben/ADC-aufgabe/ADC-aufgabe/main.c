@@ -5,7 +5,6 @@
  * Author : e1Derung
  */ 
 
-#include <avr/io.h>
 #include "ADtreiber.h"
 
 
@@ -14,7 +13,9 @@ int main(void)
     initBoard();
     while (1) 
     {
-        ledWriteAll(adcRead(8));
+        uint16_t auslese = 0;
+        auslese = adcRead(0);
+        ledWriteAll(auslese);
     }
 }
 

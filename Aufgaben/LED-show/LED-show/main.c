@@ -67,7 +67,7 @@ void aufgabe4(void)
     for (i=0; i<16; i=i+1)
     {
         ledWriteAll(ledReadAll()^(1<<i));
-        _delay_ms(100);
+        _delay_ms(50);
     }
 }
 
