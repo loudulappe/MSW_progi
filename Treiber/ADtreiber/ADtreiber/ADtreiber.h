@@ -21,6 +21,15 @@ void initBoard (void);
 void ledWriteAll (uint16_t bitmuster);
 void ledWrite (uint16_t ledNr0_15, uint8_t wert0_1);
 uint16_t ledReadAll(void);
+void initAdc(void);
+/**
+ * \brief Liest einen Analogen Wert von einem ADC ein. Auflösung 10 Bit (0..1023)
+ * 
+ * \param kanal Einen ADC-Kanal, siehe adcChannel_t
+ * 
+ * \return uint16_t Eingelesener 10 Bit Wert zwischen 0...1023
+ */
+uint16_t adcRead(uint8_t kanal);
 
 
 
