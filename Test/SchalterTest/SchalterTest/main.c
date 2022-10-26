@@ -12,7 +12,7 @@ int main(void)
     initBoard();
     while (1) 
     {
-        PORTA = PINC);
+        PORTA = PINC;
     }
 }
 

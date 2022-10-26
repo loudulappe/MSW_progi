@@ -3,29 +3,29 @@ SchalterTest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000168  2**0
+  0 .data         00000000  00800200  00800200  00000164  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000114  00000000  00000000  00000054  2**1
+  1 .text         00000110  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000168  2**0
+  2 .comment      00000030  00000000  00000000  00000164  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000198  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000194  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000078  00000000  00000000  000001d8  2**0
+  4 .debug_aranges 00000078  00000000  00000000  000001d4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000f32  00000000  00000000  00000250  2**0
+  5 .debug_info   00000f1c  00000000  00000000  0000024c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d03  00000000  00000000  00001182  2**0
+  6 .debug_abbrev 00000d03  00000000  00000000  00001168  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000540  00000000  00000000  00001e85  2**0
+  7 .debug_line   00000540  00000000  00000000  00001e6b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000b8  00000000  00000000  000023c8  2**2
+  8 .debug_frame  000000b8  00000000  00000000  000023ac  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000611  00000000  00000000  00002480  2**0
+  9 .debug_str    00000611  00000000  00000000  00002464  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000013f  00000000  00000000  00002a91  2**0
+ 10 .debug_loc    0000013f  00000000  00000000  00002a75  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  00002bd0  2**0
+ 11 .debug_ranges 00000058  00000000  00000000  00002bb4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -155,51 +155,44 @@ Disassembly of section .text:
   ee:	cd bf       	out	0x3d, r28	; 61
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
-  f4:	09 d0       	rcall	.+18     	; 0x108 <main>
-  f6:	0c c0       	rjmp	.+24     	; 0x110 <_exit>
+  f4:	07 d0       	rcall	.+14     	; 0x104 <main>
+  f6:	0a c0       	rjmp	.+20     	; 0x10c <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
 
 000000fa <initBoard>:
-    messwert |= ADCH <<8;
-    
-    ADCSRA &= 0xEF;                // Interruptflage löschen
-    
-    return messwert;
-}
+
+#include "ADtreiber.h"
+
+void initBoard(void)
+{
+    DDRA = 0xff;
   fa:	8f ef       	ldi	r24, 0xFF	; 255
   fc:	81 b9       	out	0x01, r24	; 1
+    DDRB = 0xff;
   fe:	84 b9       	out	0x04, r24	; 4
+    DDRC = 0;
  100:	17 b8       	out	0x07, r1	; 7
  102:	08 95       	ret
 
-00000104 <SwitchReadAll>:
-
-uint8_t SwitchReadAll()
-{
-    return PINC;
- 104:	86 b1       	in	r24, 0x06	; 6
-}
- 106:	08 95       	ret
-
-00000108 <main>:
+00000104 <main>:
 
 #include "ADtreiber.h"
 
 int main(void)
 {
     initBoard();
- 108:	f8 df       	rcall	.-16     	; 0xfa <initBoard>
+ 104:	fa df       	rcall	.-12     	; 0xfa <initBoard>
     while (1) 
     {
-        PORTA = SwitchReadAll();
- 10a:	fc df       	rcall	.-8      	; 0x104 <SwitchReadAll>
- 10c:	82 b9       	out	0x02, r24	; 2
- 10e:	fd cf       	rjmp	.-6      	; 0x10a <main+0x2>
+        PORTA = PINC;
+ 106:	86 b1       	in	r24, 0x06	; 6
+ 108:	82 b9       	out	0x02, r24	; 2
+ 10a:	fd cf       	rjmp	.-6      	; 0x106 <main+0x2>
 
-00000110 <_exit>:
- 110:	f8 94       	cli
+0000010c <_exit>:
+ 10c:	f8 94       	cli
 
-00000112 <__stop_program>:
- 112:	ff cf       	rjmp	.-2      	; 0x112 <__stop_program>
+0000010e <__stop_program>:
+ 10e:	ff cf       	rjmp	.-2      	; 0x10e <__stop_program>
