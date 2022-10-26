@@ -18,7 +18,12 @@ int main(void)
     initBoard();
     while (1)
     {
-        aufgabe5();
+        aufgabe1();
+        aufgabe2();
+        _delay_ms(3);
+        aufgabe4();
+        aufgabe4();
+        aufgabe3();
     }
 
 }
@@ -29,7 +34,7 @@ void aufgabe1(void)
     for (i=0; i<16; i= i+1)
     {
         ledWriteAll(1<<i);
-        _delay_ms(100);
+        _delay_ms(30);
     }
 }
 
@@ -39,13 +44,13 @@ void aufgabe2(void)
     for (i=0; i<16; i= i+1)
     {
         ledWriteAll(1<<i);
-        _delay_ms(100);
+        _delay_ms(30);
     }
     uint8_t e = 15;
     for (e=15; e>0; e= e-1)
     {
         ledWriteAll(1<<e);
-        _delay_ms(100);
+        _delay_ms(30);
     }
 }
 
@@ -57,7 +62,7 @@ void aufgabe3(void)
     {
         PORTA=PORTA|1<<i;
         PORTB=PORTB|((i>7)<<(i-8));
-        _delay_ms(100);
+        _delay_ms(30);
     }
 }
 
