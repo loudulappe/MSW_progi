@@ -13,9 +13,8 @@ int main(void)
     initBoard();
     while (1) 
     {
-        uint16_t auslese = 0;
-        auslese = adcRead(0);
-        ledWriteAll(auslese);
+        uint16_t LEDanzahl = 1600/(102300/adcRead(0));
+        ledWriteAll(~(0xfff >> LEDanzahl));
     }
 }
 
