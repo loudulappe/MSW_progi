@@ -18,12 +18,7 @@ int main(void)
     initBoard();
     while (1)
     {
-        aufgabe1();
-        aufgabe2();
-        _delay_ms(3);
-        aufgabe4();
-        aufgabe4();
-        aufgabe3();
+         aufgabe4();                   //Aufgabe hier einfügen
     }
 
 }
@@ -78,7 +73,7 @@ void aufgabe4(void)
 
 void aufgabe5(void)
 {
-    uint16_t readout = 44;
+    uint16_t readout = 75;
     uint16_t goal =100;
     ledWriteAll(~(0xffff>>(1600/((goal*100)/readout))));    
 }
