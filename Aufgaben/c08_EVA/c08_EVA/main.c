@@ -3,16 +3,17 @@
  *
  * Created: 27.10.2022 09:55:40
  * Author : e1Derung
- */ 
-
-#include <avr/io.h>
+ */
+#include "ADtreiber.h"
 
 
 int main(void)
 {
-    /* Replace with your application code */
+    uint8_t ilights=0;
+    initBoard();
     while (1) 
     {
+        ilights=SwitchReadAll();
     }
 }
 
