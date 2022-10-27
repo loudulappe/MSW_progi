@@ -47,7 +47,7 @@ int main(void)
         iEG = ilights&imEG;
         iLS = ilights&imLS;
         
-        if ((iOG|iOGG|iEG)&(~iLS))
+        if ((iOG||iOGG||iEG)&&(!iLS))
         {
             oOG=omOG|omEG;
             oEG=omOG|omEG;
