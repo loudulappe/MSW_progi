@@ -6,50 +6,50 @@
  */ 
 
 #include "ADtreiber.h"
-void aufgabe1(void);
-void aufgabe2(void);
-void aufgabe3(void);
-void aufgabe4(void);
-void aufgabe5(void);
-void aufgabe6(void);
+void lauflicht(uint8_t delay_ms);
+void lauflichtRL(uint8_t delay_ms);
+void lauflichtFull(uint8_t delay_ms);
+void lauflichtFullR(uint8_t delay_ms);
+void ladeBalken(uint16_t maximumWert, uint16_t aktuellerWert);
+
 
 int main(void)
 {
     initBoard();
     while (1)
     {
-         aufgabe4();                   //Aufgabe hier einfügen
+         lauflichtFullR(50);                   //Aufgabe hier einfügen
     }
 
 }
 
-void aufgabe1(void)
+void lauflicht(uint8_t delay_ms)
 {
     uint8_t i = 0;
     for (i=0; i<16; i= i+1)
     {
         ledWriteAll(1<<i);
-        _delay_ms(30);
+        _delay_ms(delay_ms);
     }
 }
 
-void aufgabe2(void)
+void lauflichtRL(uint8_t delay_ms)
 {
     uint8_t i = 0;
     for (i=0; i<16; i= i+1)
     {
         ledWriteAll(1<<i);
-        _delay_ms(30);
+        _delay_ms(delay_ms);
     }
     uint8_t e = 15;
     for (e=15; e>0; e= e-1)
     {
         ledWriteAll(1<<e);
-        _delay_ms(30);
+        _delay_ms(delay_ms);
     }
 }
 
-void aufgabe3(void)
+void lauflichtFull(uint8_t delay_ms)
 {
     ledWriteAll(0);
     uint8_t i=0;
@@ -57,23 +57,21 @@ void aufgabe3(void)
     {
         PORTA=PORTA|1<<i;
         PORTB=PORTB|((i>7)<<(i-8));
-        _delay_ms(30);
+        _delay_ms(delay_ms);
     }
 }
 
-void aufgabe4(void)
+void lauflichtFullR(uint8_t delay_ms)
 {
     uint8_t i=0;
     for (i=0; i<16; i=i+1)
     {
         ledWriteAll(ledReadAll()^(1<<i));
-        _delay_ms(30);
+        _delay_ms(delay_ms);
     }
 }
 
-void aufgabe5(void)
+void ladeBalken(uint16_t maximumWert, uint16_t aktuellerWert)
 {
-    uint16_t readout = 75;
-    uint16_t goal =100;
-    ledWriteAll(~(0xffff>>(1600/((goal*100)/readout))));    
+    ledWriteAll(~(0xffff>>(1600/((maximumWert*100)/aktuellerWert))));    
 }

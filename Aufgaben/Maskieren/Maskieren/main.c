@@ -10,9 +10,18 @@
 
 int main(void)
 {
-    /* Replace with your application code */
+    #include <avr/io.h>
+    #define F_CPU 16000000UL
+    #define __DELAY_BACKWARD_COMPATIBLE__
+    DDRA = 0xff;
+    DDRB = 0xff;
+    DDRC = 0;
+    PORTC = 0xff;
+    PORTA = 0xff;
+    PORTB = 0xff;
     while (1) 
     {
+          
     }
 }
 
