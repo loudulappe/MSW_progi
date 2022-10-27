@@ -11,6 +11,8 @@ void initBoard(void)
 {
     DDRA = 0xff;
     DDRB = 0xff;
+    DDRC = 0;
+    PORTC = 0xff;
 }
 
 void ledWriteAll(uint16_t bitmuster)
@@ -87,4 +89,14 @@ uint16_t adcRead(uint8_t kanal)
     ADCSRA &= 0xEF;                // Interruptflage löschen
     
     return messwert;
+}
+
+uint8_t SwitchReadAll()
+{
+    return PINC;
+}
+
+uint8_t SwitchRead(uint8_t pos)
+{
+    return ((1<<pos)&PINC);
 }

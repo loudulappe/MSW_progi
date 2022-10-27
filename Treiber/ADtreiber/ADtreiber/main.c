@@ -10,17 +10,15 @@
 
 
 int main(void)
-{    
-    initBoard();
-    ledWriteAll(0xffff);
+{ 
+    initBoard();  
     
-    
-    while (1) 
+    while (1); 
     {
-        ledWrite(14, 1);
-        _delay_ms(400);
-        ledWrite(14, 0);
-        _delay_ms(400);
+        ledWriteAll(0xffff); 
+        _delay_ms(100); 
+        ledWriteAll(0x0000); 
+        _delay_ms(100); 
     }
 }
 
