@@ -24,18 +24,18 @@ int main(void)
            if (PINC&(1<<1))
            {
                PORTA=PORTA | 0x03;
-           } 
+           }               
            else
            {
                PORTA=PORTA & 0b11111100;
            }
            if (PINC&(1<<2))
            {
-               PORTA=PORTA | 0x40;
+               PORTA=PORTA & 0b10111111;
            } 
            else
            {
-               PORTA=PORTA & 0b10111111;
+               PORTA=PORTA | 0x40;
            }
            if (PINC&(1<<3))
            {

@@ -189,7 +189,7 @@ int main(void)
  10e:	83 60       	ori	r24, 0x03	; 3
  110:	82 b9       	out	0x02, r24	; 2
  112:	03 c0       	rjmp	.+6      	; 0x11a <main+0x20>
-           } 
+           }               
            else
            {
                PORTA=PORTA & 0b11111100;
@@ -201,17 +201,17 @@ int main(void)
  11a:	32 9b       	sbis	0x06, 2	; 6
  11c:	04 c0       	rjmp	.+8      	; 0x126 <main+0x2c>
            {
-               PORTA=PORTA | 0x40;
+               PORTA=PORTA & 0b10111111;
  11e:	82 b1       	in	r24, 0x02	; 2
- 120:	80 64       	ori	r24, 0x40	; 64
+ 120:	8f 7b       	andi	r24, 0xBF	; 191
  122:	82 b9       	out	0x02, r24	; 2
  124:	03 c0       	rjmp	.+6      	; 0x12c <main+0x32>
            } 
            else
            {
-               PORTA=PORTA & 0b10111111;
+               PORTA=PORTA | 0x40;
  126:	82 b1       	in	r24, 0x02	; 2
- 128:	8f 7b       	andi	r24, 0xBF	; 191
+ 128:	80 64       	ori	r24, 0x40	; 64
  12a:	82 b9       	out	0x02, r24	; 2
            }
            if (PINC&(1<<3))
