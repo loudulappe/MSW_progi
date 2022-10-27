@@ -12,7 +12,7 @@ int main(void)
 {
     #include <avr/io.h>
     #define F_CPU 16000000UL
-    #define __DELAY_BACKWARD_COMPATIBLE__
+    #define __DELAY_BACKWARD_COMPATIBLE_
     DDRA = 0xff;
     DDRB = 0xff;
     DDRC = 0;
@@ -21,7 +21,30 @@ int main(void)
     PORTB = 0xff;
     while (1) 
     {
-          
+           if (PINC&(1<<1))
+           {
+               PORTA=PORTA | 0x03;
+           } 
+           else
+           {
+               PORTA=PORTA & 0b11111100;
+           }
+           if (PINC&(1<<2))
+           {
+               PORTA=PORTA | 0x40;
+           } 
+           else
+           {
+               PORTA=PORTA & 0b10111111;
+           }
+           if (PINC&(1<<3))
+           {
+               PORTA=PORTA | 0x80;
+           } 
+           else
+           {
+               PORTA=PORTA & 0x7f;
+           }
     }
 }
 
