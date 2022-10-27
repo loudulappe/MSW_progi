@@ -6,17 +6,35 @@
  */
 #include "ADtreiber.h"
 
+#define IMWOHNZIMMER 0x01
+#define IMBAD 0x04
+#define IMOG 0x10
+#define IMOGG 0x20
+#define IMEG 0x40
+#define IMLS 0x80
+   
+#define OMWOHNZIMMER 0x01
+#define OMBAD 0x02
+#define OMSPIEGEL 0x04
+#define OMOG 0x80
+#define OMEG 0x40
 
 int main(void)
 {    
     uint8_t ilights=0;
     
-    uint8_t imwohnzimmer=0x01;
-    uint8_t imbad=0x04;
-    uint8_t imOG=0x10;
-    uint8_t imOGG=0x20;
-    uint8_t imEG=0x40;
-    uint8_t imLS=0x80;
+    #define IMWOHNZIMMER 0x01
+    #define IMBAD 0x04
+    #define IMOG 0x10
+    #define IMOGG 0x20
+    #define IMEG 0x40
+    #define IMLS 0x80
+     
+    #define OMWOHNZIMMER 0x01
+    #define OMBAD 0x02
+    #define OMSPIEGEL 0x04
+    #define OMOG 0x80
+    #define OMEG 0x40
     
     uint8_t iwohnzimmer=0;
     uint8_t ibad=0;
@@ -30,27 +48,22 @@ int main(void)
     uint8_t ospiegel=0;
     uint8_t oOG=0;
     uint8_t oEG=0;
-    
-    uint8_t omwohnzimmer=0x01;
-    uint8_t ombad=0x02;
-    uint8_t omspiegel=0x04;
-    uint8_t omOG=0x80;
-    uint8_t omEG=0x40;
+
     initBoard();
     while (1) 
     {
         ilights = SwitchReadAll();
-        iwohnzimmer = ilights&imwohnzimmer;
-        ibad = ilights&imbad;
-        iOG = ilights&imOG;
-        iOGG = ilights&imOGG;
-        iEG = ilights&imEG;
-        iLS = ilights&imLS;
+        iwohnzimmer = ilights & OMWOHNZIMMER;
+        ibad = ilights & IMBAD;
+        iOG = ilights & IMOG;
+        iOGG = ilights & IMOGG;
+        iEG = ilights & IMEG;
+        iLS = ilights & IMLS;
         
         if ((iOG||iOGG||iEG)&&(!iLS))
         {
-            oOG=omOG|omEG;
-            oEG=omOG|omEG;
+            oOG= OMOG|OMEG;
+            oEG=OMOG|OMEG;
         } 
         else
         {
@@ -59,8 +72,8 @@ int main(void)
         }
         if (ibad)
         {
-            obad=ombad;
-            ospiegel=omspiegel;
+            obad=OMBAD;
+            ospiegel=OMSPIEGEL;
         } 
         else
         {
@@ -69,7 +82,7 @@ int main(void)
         }
         if (iwohnzimmer)
         {
-            owohnzimmer=omwohnzimmer;
+            owohnzimmer=OMWOHNZIMMER;
         } 
         else
         {
