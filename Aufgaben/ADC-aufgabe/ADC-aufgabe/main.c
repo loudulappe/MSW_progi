@@ -10,11 +10,12 @@
 
 int main(void)
 {
+    initAdc();
     initBoard();
     while (1) 
     {
-        uint16_t LEDanzahl = 1600/(102300/adcRead(0));
-        ledWriteAll(~(0xfff >> LEDanzahl));
+        adcRead(8);
+        uint16_t spannung= 3*100;
+        ledWriteAll(~(0xffff>>(1600/((5*10000)/spannung))));
     }
 }
-
