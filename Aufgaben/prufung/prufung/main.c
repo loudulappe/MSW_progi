@@ -14,17 +14,36 @@ int main(void)
     uint8_t inswitch = SwitchReadAll();
     #define INMASKPOWER  0b00000001
     #define OUTMASKPOWER  0b10000000
+    #define INMASKTEMPERATUR 0b00000100
+    #define OUTMAKSTEMPERATUR 0b01000000
+    uint8_t inpower=0;
+    uint8_t outpower=0;
+    uint8_t intemperatur=0;
+    uint8_t outtemperatur=0;
     while (1) 
     {
         uint8_t inswitch = SwitchReadAll();
-        uint8_t power = (inswitch&INMASKPOWER );    //Eingabe
+        inpower = (inswitch&INMASKPOWER );    //Eingabe
+        intemperatur =  (inswitch&INMASKTEMPERATUR);
         
-        if (power)                                  //Verarbeitung
+        if (inpower)                                  //Verarbeitung
         {
-            power = OUTMASKPOWER;
+            outpower = OUTMASKPOWER;
         }
+        else
+        {
+            outpower=0;
+        }
+         if (intemperatur)
+         {
+             outtemperatur = 0;
+         } 
+         else
+         {
+             outtemperatur = OUTMAKSTEMPERATUR;
+         }
         
-        ledWriteAll(power);
+        ledWriteAll(outpower|outtemperatur);
     }
 }
 
