@@ -18,6 +18,7 @@ int main(void)
     #define OUTMAKSTEMPERATUR   0b01000000
     #define INMASKDREHKNOPF     0b11110000
     #define OUTMASKDREHKNOPF    0b00001111
+    #define OUTMASKGROSSESFELD  0b00010000
 
     uint8_t inpower=0;
     uint8_t outpower=0;
@@ -26,22 +27,24 @@ int main(void)
     uint8_t indrehknopf=0;
     uint8_t outdrehknopf=0;
     uint8_t heizstufe=0;
+    uint8_t ingrossesfeld=0;
+    uint8_t outgrossesfeld=0;
     while (1) 
     {
         uint8_t inswitch = SwitchReadAll();
         inpower = (inswitch&INMASKPOWER );                      //Eingabe
         intemperatur = (inswitch&INMASKTEMPERATUR);
         indrehknopf = ((inswitch&INMASKDREHKNOPF)>>4);
-        
-        heizstufe=indrehknopf/3;
-        outdrehknopf= ~(0xff<<heizstufe)&OUTMASKDREHKNOPF;      //verarbeitung
-        if (inpower)                                     
+        ingrossesfeld = indrehknopf>14;
+            
+        if (inpower)                                            //Verarbeitung        
         {
-            outpower = OUTMASKPOWER;
+            outpower = OUTMASKPOWER;                         
         }
         else
         {
             outpower=0;
+            outgrossesfeld=0;
         }
         if (intemperatur)
         {
@@ -51,28 +54,25 @@ int main(void)
         {
             outtemperatur = OUTMAKSTEMPERATUR;
         }
-//         if (heizstufe=0)
-//         {
-//             outdrehknopf=OUTMASKHEIZSTUFE0;
-//         }
-//         if (heizstufe=1)
-//         {
-//             outdrehknopf=OUTMASKHEIZSTUFE1;
-//         }
-//         if (heizstufe=2)
-//         {
-//             outdrehknopf=OUTMASKHEIZSTUFE2;
-//         }
-//         if (heizstufe=3)
-//         {
-//             outdrehknopf=OUTMASKHEIZSTUFE3;
-//         }
-//         if (heizstufe=4)
-//         {
-//             outdrehknopf=OUTMASKHEIZSTUFE4;
-//         }
+        if (inpower)
+        {
+            heizstufe=indrehknopf/3;
+            outdrehknopf= ~(0xff<<heizstufe)&OUTMASKDREHKNOPF;
+        }
+        else
+        {
+            outdrehknopf=0;
+        }
+        if (ingrossesfeld&&outpower)
+        {
+            outgrossesfeld=OUTMASKGROSSESFELD;
+        }
+        else
+        {
+            outgrossesfeld=outgrossesfeld;
+        }
         
-        ledWriteAll(outpower|outtemperatur|outdrehknopf);            //Ausgabe
+        ledWriteAll(outpower|outtemperatur|outdrehknopf|outgrossesfeld);            //Ausgabe
     }
 }
 
