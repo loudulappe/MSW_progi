@@ -23,19 +23,6 @@ int main(void)
 {    
     uint8_t ilights=0;
     
-    #define IMWOHNZIMMER 0x01
-    #define IMBAD 0x04
-    #define IMOG 0x10
-    #define IMOGG 0x20
-    #define IMEG 0x40
-    #define IMLS 0x80
-     
-    #define OMWOHNZIMMER 0x01
-    #define OMBAD 0x02
-    #define OMSPIEGEL 0x04
-    #define OMOG 0x80
-    #define OMEG 0x40
-    
     uint8_t iwohnzimmer=0;
     uint8_t ibad=0;
     uint8_t iOG=0;
