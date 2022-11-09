@@ -29,7 +29,7 @@ int main(void)
             oled=0xffff;
             systemzeit =0;
         }
-        if (systemzeit>=ON_TIME_sm)
+        if ((systemzeit>=ON_TIME_sm)|!power)
         {
             oled=0;
         }

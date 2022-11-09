@@ -3,29 +3,29 @@ Delay.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000248  2**0
+  0 .data         00000000  00800200  00800200  00000256  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000001f4  00000000  00000000  00000054  2**1
+  1 .text         00000202  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000248  2**0
+  2 .comment      00000030  00000000  00000000  00000256  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000278  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000288  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000078  00000000  00000000  000002b8  2**0
+  4 .debug_aranges 00000078  00000000  00000000  000002c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001043  00000000  00000000  00000330  2**0
+  5 .debug_info   00001043  00000000  00000000  00000340  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d9c  00000000  00000000  00001373  2**0
+  6 .debug_abbrev 00000d9c  00000000  00000000  00001383  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000060b  00000000  00000000  0000210f  2**0
+  7 .debug_line   0000060b  00000000  00000000  0000211f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000b8  00000000  00000000  0000271c  2**2
+  8 .debug_frame  000000b8  00000000  00000000  0000272c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000622  00000000  00000000  000027d4  2**0
+  9 .debug_str    0000064a  00000000  00000000  000027e4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000265  00000000  00000000  00002df6  2**0
+ 10 .debug_loc    00000265  00000000  00000000  00002e2e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  0000305b  2**0
+ 11 .debug_ranges 00000058  00000000  00000000  00003093  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -156,7 +156,7 @@ Disassembly of section .text:
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
   f4:	15 d0       	rcall	.+42     	; 0x120 <main>
-  f6:	7c c0       	rjmp	.+248    	; 0x1f0 <_exit>
+  f6:	83 c0       	rjmp	.+262    	; 0x1fe <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
@@ -235,7 +235,7 @@ int main(void)
         power=SwitchRead(0);
  136:	80 e0       	ldi	r24, 0x00	; 0
  138:	e9 df       	rcall	.-46     	; 0x10c <SwitchRead>
- 13a:	e8 2f       	mov	r30, r24
+ 13a:	f8 2f       	mov	r31, r24
 
 //verarbeitung
       
@@ -249,7 +249,7 @@ int main(void)
  148:	81 2f       	mov	r24, r17
  14a:	9d 2f       	mov	r25, r29
  14c:	af ef       	ldi	r26, 0xFF	; 255
- 14e:	44 d0       	rcall	.+136    	; 0x1d8 <__adddi3_s8>
+ 14e:	4b d0       	rcall	.+150    	; 0x1e6 <__adddi3_s8>
  150:	26 38       	cpi	r18, 0x86	; 134
  152:	33 41       	sbci	r19, 0x13	; 19
  154:	41 05       	cpc	r20, r1
@@ -260,7 +260,7 @@ int main(void)
  15e:	91 05       	cpc	r25, r1
  160:	71 f0       	breq	.+28     	; 0x17e <main+0x5e>
  162:	68 f0       	brcs	.+26     	; 0x17e <main+0x5e>
- 164:	ee 23       	and	r30, r30
+ 164:	ff 23       	and	r31, r31
  166:	59 f0       	breq	.+22     	; 0x17e <main+0x5e>
         {
             oled=0xffff;
@@ -277,88 +277,95 @@ int main(void)
  17a:	10 e0       	ldi	r17, 0x00	; 0
  17c:	d0 e0       	ldi	r29, 0x00	; 0
         }
-        if (systemzeit>=ON_TIME_sm)
- 17e:	2a 2d       	mov	r18, r10
- 180:	3b 2d       	mov	r19, r11
- 182:	4c 2d       	mov	r20, r12
- 184:	5d 2d       	mov	r21, r13
- 186:	60 2f       	mov	r22, r16
- 188:	7c 2f       	mov	r23, r28
- 18a:	81 2f       	mov	r24, r17
- 18c:	9d 2f       	mov	r25, r29
- 18e:	2f 39       	cpi	r18, 0x9F	; 159
- 190:	3f 40       	sbci	r19, 0x0F	; 15
- 192:	41 05       	cpc	r20, r1
- 194:	51 05       	cpc	r21, r1
- 196:	61 05       	cpc	r22, r1
- 198:	71 05       	cpc	r23, r1
- 19a:	81 05       	cpc	r24, r1
- 19c:	91 05       	cpc	r25, r1
- 19e:	19 f0       	breq	.+6      	; 0x1a6 <main+0x86>
- 1a0:	10 f0       	brcs	.+4      	; 0x1a6 <main+0x86>
+        if ((systemzeit>=ON_TIME_sm)|!power)
+ 17e:	e1 e0       	ldi	r30, 0x01	; 1
+ 180:	2a 2d       	mov	r18, r10
+ 182:	3b 2d       	mov	r19, r11
+ 184:	4c 2d       	mov	r20, r12
+ 186:	5d 2d       	mov	r21, r13
+ 188:	60 2f       	mov	r22, r16
+ 18a:	7c 2f       	mov	r23, r28
+ 18c:	81 2f       	mov	r24, r17
+ 18e:	9d 2f       	mov	r25, r29
+ 190:	2f 39       	cpi	r18, 0x9F	; 159
+ 192:	3f 40       	sbci	r19, 0x0F	; 15
+ 194:	41 05       	cpc	r20, r1
+ 196:	51 05       	cpc	r21, r1
+ 198:	61 05       	cpc	r22, r1
+ 19a:	71 05       	cpc	r23, r1
+ 19c:	81 05       	cpc	r24, r1
+ 19e:	91 05       	cpc	r25, r1
+ 1a0:	09 f0       	breq	.+2      	; 0x1a4 <main+0x84>
+ 1a2:	08 f4       	brcc	.+2      	; 0x1a6 <main+0x86>
+ 1a4:	e0 e0       	ldi	r30, 0x00	; 0
+ 1a6:	81 e0       	ldi	r24, 0x01	; 1
+ 1a8:	f1 11       	cpse	r31, r1
+ 1aa:	80 e0       	ldi	r24, 0x00	; 0
+ 1ac:	8e 2b       	or	r24, r30
+ 1ae:	11 f0       	breq	.+4      	; 0x1b4 <main+0x94>
         {
             oled=0;
- 1a2:	e1 2c       	mov	r14, r1
+ 1b0:	e1 2c       	mov	r14, r1
                     
 
         
         
 //ausgabe
         ledWriteAll(oled);
- 1a4:	f1 2c       	mov	r15, r1
- 1a6:	c7 01       	movw	r24, r14
- 1a8:	ae df       	rcall	.-164    	; 0x106 <ledWriteAll>
+ 1b2:	f1 2c       	mov	r15, r1
+ 1b4:	c7 01       	movw	r24, r14
+ 1b6:	a7 df       	rcall	.-178    	; 0x106 <ledWriteAll>
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 1aa:	80 e4       	ldi	r24, 0x40	; 64
- 1ac:	9c e9       	ldi	r25, 0x9C	; 156
- 1ae:	01 97       	sbiw	r24, 0x01	; 1
- 1b0:	f1 f7       	brne	.-4      	; 0x1ae <main+0x8e>
+ 1b8:	80 e4       	ldi	r24, 0x40	; 64
+ 1ba:	9c e9       	ldi	r25, 0x9C	; 156
+ 1bc:	01 97       	sbiw	r24, 0x01	; 1
+ 1be:	f1 f7       	brne	.-4      	; 0x1bc <main+0x9c>
 
 //systemzeit
         _delay_ms(10);
         systemzeit = systemzeit+10;
- 1b2:	2a 2d       	mov	r18, r10
- 1b4:	3b 2d       	mov	r19, r11
- 1b6:	4c 2d       	mov	r20, r12
- 1b8:	5d 2d       	mov	r21, r13
- 1ba:	60 2f       	mov	r22, r16
- 1bc:	7c 2f       	mov	r23, r28
- 1be:	81 2f       	mov	r24, r17
- 1c0:	9d 2f       	mov	r25, r29
- 1c2:	aa e0       	ldi	r26, 0x0A	; 10
- 1c4:	09 d0       	rcall	.+18     	; 0x1d8 <__adddi3_s8>
- 1c6:	a2 2e       	mov	r10, r18
- 1c8:	b3 2e       	mov	r11, r19
- 1ca:	c4 2e       	mov	r12, r20
- 1cc:	d5 2e       	mov	r13, r21
- 1ce:	06 2f       	mov	r16, r22
- 1d0:	c7 2f       	mov	r28, r23
- 1d2:	18 2f       	mov	r17, r24
- 1d4:	d9 2f       	mov	r29, r25
+ 1c0:	2a 2d       	mov	r18, r10
+ 1c2:	3b 2d       	mov	r19, r11
+ 1c4:	4c 2d       	mov	r20, r12
+ 1c6:	5d 2d       	mov	r21, r13
+ 1c8:	60 2f       	mov	r22, r16
+ 1ca:	7c 2f       	mov	r23, r28
+ 1cc:	81 2f       	mov	r24, r17
+ 1ce:	9d 2f       	mov	r25, r29
+ 1d0:	aa e0       	ldi	r26, 0x0A	; 10
+ 1d2:	09 d0       	rcall	.+18     	; 0x1e6 <__adddi3_s8>
+ 1d4:	a2 2e       	mov	r10, r18
+ 1d6:	b3 2e       	mov	r11, r19
+ 1d8:	c4 2e       	mov	r12, r20
+ 1da:	d5 2e       	mov	r13, r21
+ 1dc:	06 2f       	mov	r16, r22
+ 1de:	c7 2f       	mov	r28, r23
+ 1e0:	18 2f       	mov	r17, r24
+ 1e2:	d9 2f       	mov	r29, r25
     }
- 1d6:	af cf       	rjmp	.-162    	; 0x136 <main+0x16>
+ 1e4:	a8 cf       	rjmp	.-176    	; 0x136 <main+0x16>
 
-000001d8 <__adddi3_s8>:
- 1d8:	00 24       	eor	r0, r0
- 1da:	a7 fd       	sbrc	r26, 7
- 1dc:	00 94       	com	r0
- 1de:	2a 0f       	add	r18, r26
- 1e0:	30 1d       	adc	r19, r0
- 1e2:	40 1d       	adc	r20, r0
- 1e4:	50 1d       	adc	r21, r0
- 1e6:	60 1d       	adc	r22, r0
- 1e8:	70 1d       	adc	r23, r0
- 1ea:	80 1d       	adc	r24, r0
- 1ec:	90 1d       	adc	r25, r0
- 1ee:	08 95       	ret
+000001e6 <__adddi3_s8>:
+ 1e6:	00 24       	eor	r0, r0
+ 1e8:	a7 fd       	sbrc	r26, 7
+ 1ea:	00 94       	com	r0
+ 1ec:	2a 0f       	add	r18, r26
+ 1ee:	30 1d       	adc	r19, r0
+ 1f0:	40 1d       	adc	r20, r0
+ 1f2:	50 1d       	adc	r21, r0
+ 1f4:	60 1d       	adc	r22, r0
+ 1f6:	70 1d       	adc	r23, r0
+ 1f8:	80 1d       	adc	r24, r0
+ 1fa:	90 1d       	adc	r25, r0
+ 1fc:	08 95       	ret
 
-000001f0 <_exit>:
- 1f0:	f8 94       	cli
+000001fe <_exit>:
+ 1fe:	f8 94       	cli
 
-000001f2 <__stop_program>:
- 1f2:	ff cf       	rjmp	.-2      	; 0x1f2 <__stop_program>
+00000200 <__stop_program>:
+ 200:	ff cf       	rjmp	.-2      	; 0x200 <__stop_program>

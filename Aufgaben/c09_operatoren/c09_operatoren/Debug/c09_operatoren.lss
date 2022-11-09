@@ -3,29 +3,29 @@ c09_operatoren.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  000001d0  2**0
+  0 .data         00000000  00800200  00800200  00000202  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000017c  00000000  00000000  00000054  2**1
+  1 .text         000001ae  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001d0  2**0
+  2 .comment      00000030  00000000  00000000  00000202  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000200  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000234  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000078  00000000  00000000  00000240  2**0
+  4 .debug_aranges 00000078  00000000  00000000  00000274  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001058  00000000  00000000  000002b8  2**0
+  5 .debug_info   0000105b  00000000  00000000  000002ec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d3b  00000000  00000000  00001310  2**0
+  6 .debug_abbrev 00000d3b  00000000  00000000  00001347  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000005e4  00000000  00000000  0000204b  2**0
+  7 .debug_line   00000606  00000000  00000000  00002082  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000b8  00000000  00000000  00002630  2**2
+  8 .debug_frame  000000b8  00000000  00000000  00002688  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000656  00000000  00000000  000026e8  2**0
+  9 .debug_str    00000656  00000000  00000000  00002740  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000309  00000000  00000000  00002d3e  2**0
+ 10 .debug_loc    000003e1  00000000  00000000  00002d96  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  00003047  2**0
+ 11 .debug_ranges 00000058  00000000  00000000  00003177  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -156,7 +156,7 @@ Disassembly of section .text:
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
   f4:	0d d0       	rcall	.+26     	; 0x110 <main>
-  f6:	40 c0       	rjmp	.+128    	; 0x178 <_exit>
+  f6:	59 c0       	rjmp	.+178    	; 0x1aa <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
@@ -202,112 +202,145 @@ uint8_t SwitchReadAll()
     {
         uint8_t swinput = SwitchReadAll();
  112:	fc df       	rcall	.-8      	; 0x10c <SwitchReadAll>
- 114:	38 2f       	mov	r19, r24
+ 114:	58 2f       	mov	r21, r24
         
         is0 = swinput & IMSW0;
         is1 = swinput & IMSW1;
- 116:	32 70       	andi	r19, 0x02	; 2
- 118:	58 2f       	mov	r21, r24
+ 116:	52 70       	andi	r21, 0x02	; 2
+ 118:	78 2f       	mov	r23, r24
         is2 = swinput & IMSW2;
         is3 = swinput & IMSW3;
         is4 = swinput & IMSW4;
- 11a:	50 71       	andi	r21, 0x10	; 16
- 11c:	48 2f       	mov	r20, r24
+ 11a:	70 71       	andi	r23, 0x10	; 16
+ 11c:	68 2f       	mov	r22, r24
         is5 = swinput & IMSW5;
- 11e:	40 72       	andi	r20, 0x20	; 32
- 120:	28 2f       	mov	r18, r24
+ 11e:	60 72       	andi	r22, 0x20	; 32
+ 120:	48 2f       	mov	r20, r24
         is6 = swinput & IMSW6;
- 122:	20 74       	andi	r18, 0x40	; 64
- 124:	80 78       	andi	r24, 0x80	; 128
+ 122:	40 74       	andi	r20, 0x40	; 64
+ 124:	38 2f       	mov	r19, r24
         is7 = swinput & IMSW7;
- 126:	31 f0       	breq	.+12     	; 0x134 <main+0x24>
+ 126:	30 78       	andi	r19, 0x80	; 128
+ 128:	91 e0       	ldi	r25, 0x01	; 1
         
-        oled0 = is7;
+        oled0=is7&&is7;
+ 12a:	09 f4       	brne	.+2      	; 0x12e <main+0x1e>
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	29 2f       	mov	r18, r25
+ 130:	33 23       	and	r19, r19
         oled1 = (is7&&is6&&!is5);
- 128:	22 23       	and	r18, r18
- 12a:	31 f0       	breq	.+12     	; 0x138 <main+0x28>
- 12c:	44 23       	and	r20, r20
- 12e:	31 f0       	breq	.+12     	; 0x13c <main+0x2c>
- 130:	90 e0       	ldi	r25, 0x00	; 0
- 132:	05 c0       	rjmp	.+10     	; 0x13e <main+0x2e>
- 134:	90 e0       	ldi	r25, 0x00	; 0
- 136:	03 c0       	rjmp	.+6      	; 0x13e <main+0x2e>
- 138:	90 e0       	ldi	r25, 0x00	; 0
- 13a:	01 c0       	rjmp	.+2      	; 0x13e <main+0x2e>
- 13c:	91 e0       	ldi	r25, 0x01	; 1
- 13e:	91 11       	cpse	r25, r1
+ 132:	31 f0       	breq	.+12     	; 0x140 <main+0x30>
+ 134:	44 23       	and	r20, r20
+ 136:	31 f0       	breq	.+12     	; 0x144 <main+0x34>
+ 138:	66 23       	and	r22, r22
+ 13a:	31 f0       	breq	.+12     	; 0x148 <main+0x38>
+ 13c:	90 e0       	ldi	r25, 0x00	; 0
+ 13e:	05 c0       	rjmp	.+10     	; 0x14a <main+0x3a>
+ 140:	90 e0       	ldi	r25, 0x00	; 0
+ 142:	03 c0       	rjmp	.+6      	; 0x14a <main+0x3a>
+ 144:	90 e0       	ldi	r25, 0x00	; 0
+ 146:	01 c0       	rjmp	.+2      	; 0x14a <main+0x3a>
+ 148:	91 e0       	ldi	r25, 0x01	; 1
+ 14a:	39 2f       	mov	r19, r25
+ 14c:	91 11       	cpse	r25, r1
         if (oled1)
- 140:	92 e0       	ldi	r25, 0x02	; 2
+ 14e:	32 e0       	ldi	r19, 0x02	; 2
         {
             oled1=OMLED1;
- 142:	22 23       	and	r18, r18
+ 150:	44 23       	and	r20, r20
         }
         if (!(is6&&is5&&is4))
- 144:	31 f0       	breq	.+12     	; 0x152 <main+0x42>
- 146:	44 23       	and	r20, r20
- 148:	31 f0       	breq	.+12     	; 0x156 <main+0x46>
- 14a:	51 11       	cpse	r21, r1
- 14c:	06 c0       	rjmp	.+12     	; 0x15a <main+0x4a>
- 14e:	44 e0       	ldi	r20, 0x04	; 4
+ 152:	31 f0       	breq	.+12     	; 0x160 <main+0x50>
+ 154:	66 23       	and	r22, r22
+ 156:	31 f0       	breq	.+12     	; 0x164 <main+0x54>
+ 158:	71 11       	cpse	r23, r1
+ 15a:	06 c0       	rjmp	.+12     	; 0x168 <main+0x58>
+ 15c:	74 e0       	ldi	r23, 0x04	; 4
         {
             oled2=OMLED2;
- 150:	05 c0       	rjmp	.+10     	; 0x15c <main+0x4c>
- 152:	44 e0       	ldi	r20, 0x04	; 4
- 154:	03 c0       	rjmp	.+6      	; 0x15c <main+0x4c>
- 156:	44 e0       	ldi	r20, 0x04	; 4
- 158:	01 c0       	rjmp	.+2      	; 0x15c <main+0x4c>
- 15a:	40 e0       	ldi	r20, 0x00	; 0
+ 15e:	05 c0       	rjmp	.+10     	; 0x16a <main+0x5a>
+ 160:	74 e0       	ldi	r23, 0x04	; 4
+ 162:	03 c0       	rjmp	.+6      	; 0x16a <main+0x5a>
+ 164:	74 e0       	ldi	r23, 0x04	; 4
+ 166:	01 c0       	rjmp	.+2      	; 0x16a <main+0x5a>
+ 168:	70 e0       	ldi	r23, 0x00	; 0
         } 
         else
         {
             oled2=0;
- 15c:	33 23       	and	r19, r19
+ 16a:	55 23       	and	r21, r21
         }
-        if (is1)
- 15e:	19 f0       	breq	.+6      	; 0x166 <main+0x56>
- 160:	20 e0       	ldi	r18, 0x00	; 0
+        if (is1)    
+ 16c:	19 f0       	breq	.+6      	; 0x174 <main+0x64>
+ 16e:	50 e0       	ldi	r21, 0x00	; 0
         {
             oled3=OMLED3;
             oled4=0;
- 162:	38 e0       	ldi	r19, 0x08	; 8
+ 170:	68 e0       	ldi	r22, 0x08	; 8
         {
             oled2=0;
         }
-        if (is1)
+        if (is1)    
         {
             oled3=OMLED3;
- 164:	02 c0       	rjmp	.+4      	; 0x16a <main+0x5a>
- 166:	20 e1       	ldi	r18, 0x10	; 16
+ 172:	02 c0       	rjmp	.+4      	; 0x178 <main+0x68>
+ 174:	50 e1       	ldi	r21, 0x10	; 16
             oled4=0;
         } 
         else
         {
             oled3=0;
             oled4=OMLED4;
- 168:	30 e0       	ldi	r19, 0x00	; 0
+ 176:	60 e0       	ldi	r22, 0x00	; 0
             oled3=OMLED3;
             oled4=0;
         } 
         else
         {
             oled3=0;
- 16a:	89 2b       	or	r24, r25
+ 178:	91 ef       	ldi	r25, 0xF1	; 241
             oled4=OMLED4;
+        }
+        if (!(swinput%17))
+ 17a:	89 9f       	mul	r24, r25
+ 17c:	91 2d       	mov	r25, r1
+ 17e:	11 24       	eor	r1, r1
+ 180:	92 95       	swap	r25
+ 182:	9f 70       	andi	r25, 0x0F	; 15
+ 184:	41 e1       	ldi	r20, 0x11	; 17
+ 186:	94 9f       	mul	r25, r20
+ 188:	80 19       	sub	r24, r0
+ 18a:	11 24       	eor	r1, r1
+ 18c:	81 11       	cpse	r24, r1
+ 18e:	02 c0       	rjmp	.+4      	; 0x194 <main+0x84>
+ 190:	40 e2       	ldi	r20, 0x20	; 32
+        {
+            oled5=OMLED5;
+ 192:	01 c0       	rjmp	.+2      	; 0x196 <main+0x86>
+ 194:	40 e0       	ldi	r20, 0x00	; 0
+        } 
+        else
+        {
+            oled5=0;
+ 196:	93 2f       	mov	r25, r19
         }
         
 
         
         ledWriteAll(oled0|oled1|oled2|oled3|oled4|oled5|oled6|oled7);
- 16c:	84 2b       	or	r24, r20
- 16e:	83 2b       	or	r24, r19
- 170:	82 2b       	or	r24, r18
- 172:	90 e0       	ldi	r25, 0x00	; 0
- 174:	c8 df       	rcall	.-112    	; 0x106 <ledWriteAll>
- 176:	cd cf       	rjmp	.-102    	; 0x112 <main+0x2>
+ 198:	92 2b       	or	r25, r18
+ 19a:	89 2f       	mov	r24, r25
+ 19c:	87 2b       	or	r24, r23
+ 19e:	86 2b       	or	r24, r22
+ 1a0:	85 2b       	or	r24, r21
+ 1a2:	84 2b       	or	r24, r20
+ 1a4:	90 e0       	ldi	r25, 0x00	; 0
+ 1a6:	af df       	rcall	.-162    	; 0x106 <ledWriteAll>
+ 1a8:	b4 cf       	rjmp	.-152    	; 0x112 <main+0x2>
 
-00000178 <_exit>:
+000001aa <_exit>:
     }
- 178:	f8 94       	cli
+ 1aa:	f8 94       	cli
 
-0000017a <__stop_program>:
- 17a:	ff cf       	rjmp	.-2      	; 0x17a <__stop_program>
+000001ac <__stop_program>:
+ 1ac:	ff cf       	rjmp	.-2      	; 0x1ac <__stop_program>

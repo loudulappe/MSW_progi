@@ -63,7 +63,7 @@ int main(void)
         is6 = swinput & IMSW6;
         is7 = swinput & IMSW7;
         
-        oled0 = is7;
+        oled0=is7&&is7;
         oled1 = (is7&&is6&&!is5);
         if (oled1)
         {
@@ -77,7 +77,7 @@ int main(void)
         {
             oled2=0;
         }
-        if (is1)
+        if (is1)    
         {
             oled3=OMLED3;
             oled4=0;
@@ -86,6 +86,14 @@ int main(void)
         {
             oled3=0;
             oled4=OMLED4;
+        }
+        if (!(swinput%17))
+        {
+            oled5=OMLED5;
+        } 
+        else
+        {
+            oled5=0;
         }
         
 
