@@ -10,23 +10,24 @@
 
 int main(void)
 {
-    #define IMSW0 0x01
-    #define IMSW1 0x02
-    #define IMSW2 0x04
-    #define IMSW3 0x08
-    #define IMSW4 0x10
-    #define IMSW5 0x20
-    #define IMSW6 0X40
-    #define IMSW7 0x80
+    #define IMSW0       0x01
+    #define IMSW1       0x02
+    #define IMSW2       0x04
+    #define IMSW3       0x08
+    #define IMSW4       0x10
+    #define IMSW5       0x20
+    #define IMSW6       0X40
+    #define IMSW7       0x80
     
-    #define OMLED0 0x01
-    #define OMLED1 0x02
-    #define OMLED2 0x04
-    #define OMLED3 0x08
-    #define OMLED4 0x10
-    #define OMLED5 0x20
-    #define OMLED6 0x40
-    #define OMLED7 0x80
+    #define OMLED0      0x01
+    #define OMLED1      0x02
+    #define OMLED2      0x04
+    #define OMLED3      0x08
+    #define OMLED4      0x10
+    #define OMLED5      0x20
+    #define OMLED6      0x40
+    #define OMLED7      0x80
+    #define INVERTMASK  0xff  
     
     uint8_t oled0=0;
     uint8_t oled1=0;
@@ -47,7 +48,7 @@ int main(void)
     uint8_t is7 = 0;
     uint8_t is13= 0;
     uint8_t is46= 0;
-    uint8_t invertmask=0;
+    uint8_t oinvert=0;
 
     
     initBoard();
@@ -70,6 +71,10 @@ int main(void)
         if (is7&&is6&&!is5)
         {
             oled1=OMLED1;
+        }
+        else
+        {
+            oled1=0;
         }
         
         if (!(is6&&is5&&is4))
@@ -123,14 +128,14 @@ int main(void)
         
         if (is0)
         {
-            invertmask=0xff;
+            oinvert=INVERTMASK;
         } 
         else
         {
-            invertmask=0;
+            oinvert=0;
         }
         
-        ledWriteAll((oled0|oled1|oled2|oled3|oled4|oled5|oled6|oled7)^invertmask);
+        ledWriteAll((oled0|oled1|oled2|oled3|oled4|oled5|oled6|oled7)^oinvert);
     }
 }
 
