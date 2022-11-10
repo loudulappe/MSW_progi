@@ -130,7 +130,7 @@ int main(void)
             invertmask=0;
         }
         
-        ledWriteAll((oled0|oled1|oled2|oled3|oled4|oled6|oled7)^invertmask);
+        ledWriteAll((oled0|oled1|oled2|oled3|oled4|oled5|oled6|oled7)^invertmask);
     }
 }
 
