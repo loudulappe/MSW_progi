@@ -46,6 +46,8 @@ int main(void)
     uint8_t is6 = 0;
     uint8_t is7 = 0;
     uint8_t is13= 0;
+    uint8_t is46= 0;
+    uint8_t invertmask=0;
 
     
     initBoard();
@@ -64,11 +66,12 @@ int main(void)
         is7 = swinput & IMSW7;
         
         oled0=is7&&is7;
-        oled1 = (is7&&is6&&!is5);
-        if (oled1)
+        
+        if (is7&&is6&&!is5)
         {
             oled1=OMLED1;
         }
+        
         if (!(is6&&is5&&is4))
         {
             oled2=OMLED2;
@@ -77,6 +80,7 @@ int main(void)
         {
             oled2=0;
         }
+        
         if (is1)    
         {
             oled3=OMLED3;
@@ -87,6 +91,7 @@ int main(void)
             oled3=0;
             oled4=OMLED4;
         }
+        
         if (!(swinput%17))
         {
             oled5=OMLED5;
@@ -96,9 +101,36 @@ int main(void)
             oled5=0;
         }
         
-
+        is13=(is1|is2|is3)>>1;
+        is46=(is4|is5|is6)>>4;
+        if (is13>is46)
+        {
+            oled6=OMLED6;
+        } 
+        else
+        {
+            oled6=0;
+            
+        }
+        if (is13==is46)
+        {
+            oled7=OMLED7;
+        }
+        else
+        {
+            oled7=0;
+        }
         
-        ledWriteAll(oled0|oled1|oled2|oled3|oled4|oled5|oled6|oled7);
+        if (is0)
+        {
+            invertmask=0xff;
+        } 
+        else
+        {
+            invertmask=0;
+        }
+        
+        ledWriteAll((oled0|oled1|oled2|oled3|oled4|oled6|oled7)^invertmask);
     }
 }
 
