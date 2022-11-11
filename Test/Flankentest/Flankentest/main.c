@@ -16,31 +16,21 @@ int main(void)
     uint16_t oled=0;
     uint8_t intastneu=0;
     uint8_t intastalt=0;
-    uint8_t outtast=0;
-    uint8_t hitcount=0;
     initBoard();
     while (1)           
     {
 //Eingabe
         intastalt=intastneu;
         intastneu=tasterreadall();
+        uint8_t flankall = (~intastalt)&intastneu;
         
 //Verarbeitung
-        if ((!intastalt)&&intastneu)
+        if ((~intastalt)&intastneu)
         {
-            hitcount=hitcount+1;
+            oled=oled^flankall;
         } 
-        
-        outtast= hitcount%2;
-        if (outtast)
-        {
-            oled=OMLED;
-        } 
-        else
-        {
-            oled=0;
-        }
-        
+
+
 //Ausgabe
         ledWriteAll(oled);    
         
@@ -48,5 +38,4 @@ int main(void)
         _delay_ms(systemtakt);
         systemzeit=systemzeit+systemtakt;
     }
-}
-
+}    
