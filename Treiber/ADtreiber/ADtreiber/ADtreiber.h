@@ -40,7 +40,7 @@ uint8_t SwitchRead(uint8_t pos);
 
 uint16_t adcRead(uint8_t kanal);
 
-
+uint8_t tasterreadall (void);
 
 
 #endif /* ADTREIBER_H_ */
