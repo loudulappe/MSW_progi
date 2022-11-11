@@ -100,3 +100,8 @@ uint8_t SwitchRead(uint8_t pos)
 {
     return ((1<<pos)&PINC);
 }
+
+uint8_t tasterreadall()
+{
+    return (((PINL&0x03)<<6)|((PINL&0xc0)>>6));
+}

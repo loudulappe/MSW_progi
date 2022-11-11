@@ -42,4 +42,5 @@ uint16_t adcRead(uint8_t kanal);
 
 
 
+
 #endif /* ADTREIBER_H_ */
