@@ -3,29 +3,29 @@ tastercounter.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  000001a8  2**0
+  0 .data         00000000  00800200  00800200  000001b6  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000154  00000000  00000000  00000054  2**1
+  1 .text         00000162  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001a8  2**0
+  2 .comment      00000030  00000000  00000000  000001b6  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001d8  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001e8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000080  00000000  00000000  00000218  2**0
+  4 .debug_aranges 00000080  00000000  00000000  00000228  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001072  00000000  00000000  00000298  2**0
+  5 .debug_info   00001088  00000000  00000000  000002a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d87  00000000  00000000  0000130a  2**0
+  6 .debug_abbrev 00000d87  00000000  00000000  00001330  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000061d  00000000  00000000  00002091  2**0
+  7 .debug_line   00000623  00000000  00000000  000020b7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000c8  00000000  00000000  000026b0  2**2
+  8 .debug_frame  000000c8  00000000  00000000  000026dc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000064d  00000000  00000000  00002778  2**0
+  9 .debug_str    00000673  00000000  00000000  000027a4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000294  00000000  00000000  00002dc5  2**0
+ 10 .debug_loc    00000294  00000000  00000000  00002e17  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000060  00000000  00000000  00003059  2**0
+ 11 .debug_ranges 00000060  00000000  00000000  000030ab  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -155,121 +155,129 @@ Disassembly of section .text:
   ee:	cd bf       	out	0x3d, r28	; 61
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
-  f4:	13 d0       	rcall	.+38     	; 0x11c <main>
-  f6:	2c c0       	rjmp	.+88     	; 0x150 <_exit>
+  f4:	19 d0       	rcall	.+50     	; 0x128 <main>
+  f6:	33 c0       	rjmp	.+102    	; 0x15e <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
 
-000000fa <ledWriteAll>:
+000000fa <initBoard>:
 }
 
 uint8_t SwitchRead(uint8_t pos)
 {
     return ((1<<pos)&PINC);
 }
-  fa:	82 b9       	out	0x02, r24	; 2
-  fc:	95 b9       	out	0x05, r25	; 5
-  fe:	08 95       	ret
+  fa:	8f ef       	ldi	r24, 0xFF	; 255
+  fc:	81 b9       	out	0x01, r24	; 1
+  fe:	84 b9       	out	0x04, r24	; 4
+ 100:	17 b8       	out	0x07, r1	; 7
+ 102:	88 b9       	out	0x08, r24	; 8
+ 104:	08 95       	ret
 
-00000100 <tasterreadall>:
+00000106 <ledWriteAll>:
+ 106:	82 b9       	out	0x02, r24	; 2
+ 108:	95 b9       	out	0x05, r25	; 5
+ 10a:	08 95       	ret
+
+0000010c <tasterreadall>:
 
 uint8_t tasterreadall()
 {
     return (((PINL&0x03)<<6)|((PINL&0xc0)>>6));
- 100:	e9 e0       	ldi	r30, 0x09	; 9
- 102:	f1 e0       	ldi	r31, 0x01	; 1
- 104:	20 81       	ld	r18, Z
- 106:	80 e4       	ldi	r24, 0x40	; 64
- 108:	28 9f       	mul	r18, r24
- 10a:	90 01       	movw	r18, r0
- 10c:	11 24       	eor	r1, r1
- 10e:	80 81       	ld	r24, Z
- 110:	82 95       	swap	r24
- 112:	86 95       	lsr	r24
- 114:	86 95       	lsr	r24
- 116:	83 70       	andi	r24, 0x03	; 3
+ 10c:	e9 e0       	ldi	r30, 0x09	; 9
+ 10e:	f1 e0       	ldi	r31, 0x01	; 1
+ 110:	20 81       	ld	r18, Z
+ 112:	80 e4       	ldi	r24, 0x40	; 64
+ 114:	28 9f       	mul	r18, r24
+ 116:	90 01       	movw	r18, r0
+ 118:	11 24       	eor	r1, r1
+ 11a:	80 81       	ld	r24, Z
+ 11c:	82 95       	swap	r24
+ 11e:	86 95       	lsr	r24
+ 120:	86 95       	lsr	r24
+ 122:	83 70       	andi	r24, 0x03	; 3
 }
- 118:	82 2b       	or	r24, r18
- 11a:	08 95       	ret
+ 124:	82 2b       	or	r24, r18
+ 126:	08 95       	ret
 
-0000011c <main>:
-    uint8_t talt=0;
-    uint8_t flall=0;
-    uint8_t flapo=0;
-    uint8_t flapopow=0;
-    uint8_t flapores=0;
-    uint16_t count =0;
- 11c:	00 e0       	ldi	r16, 0x00	; 0
- 11e:	10 e0       	ldi	r17, 0x00	; 0
+00000128 <main>:
+#include "ADtreiber.h"
+
 
 int main(void)
 {
-    #define IMPOW 0x01
-    #define IMRES 0x02
-    uint8_t tall=0;
- 120:	c0 e0       	ldi	r28, 0x00	; 0
+    initBoard();
+ 128:	e8 df       	rcall	.-48     	; 0xfa <initBoard>
+    uint8_t tasterAlt=0;
+    uint8_t flankAll=0;
+    uint8_t flankPositive=0;
+    uint8_t flankPositivePower=0;
+    uint8_t flankPowerReset=0;
     uint16_t count =0;
+ 12a:	00 e0       	ldi	r16, 0x00	; 0
+ 12c:	10 e0       	ldi	r17, 0x00	; 0
     while (1)
     {
         //Eingabe
-        talt=tall;
-        tall=tasterreadall();
- 122:	ee df       	rcall	.-36     	; 0x100 <tasterreadall>
- 124:	d8 2f       	mov	r29, r24
+        tasterAlt=tasterAll;
+        tasterAll=tasterreadall();
+ 12e:	c0 e0       	ldi	r28, 0x00	; 0
+ 130:	ed df       	rcall	.-38     	; 0x10c <tasterreadall>
+ 132:	d8 2f       	mov	r29, r24
         
-        flall= tall^talt;
- 126:	8c 2f       	mov	r24, r28
- 128:	8d 27       	eor	r24, r29
-        flapo= flall&tall;
- 12a:	8d 23       	and	r24, r29
-        flapopow= flapo&IMPOW;
-        flapores= flapo&IMRES;
- 12c:	98 2f       	mov	r25, r24
- 12e:	92 70       	andi	r25, 0x02	; 2
+        flankAll= tasterAll^tasterAlt;
+ 134:	8c 2f       	mov	r24, r28
+ 136:	8d 27       	eor	r24, r29
+        flankPositive= flankAll&tasterAll;
+ 138:	8d 23       	and	r24, r29
+        flankPositivePower= flankPositive&INMASKPOWER;
+        flankPowerReset= flankPositive&INMASKRESET;
+ 13a:	98 2f       	mov	r25, r24
+ 13c:	92 70       	andi	r25, 0x02	; 2
         
         //Verarbeitung
-        if (flapopow)
- 130:	80 ff       	sbrs	r24, 0
- 132:	02 c0       	rjmp	.+4      	; 0x138 <main+0x1c>
+        if (flankPositivePower)
+ 13e:	80 ff       	sbrs	r24, 0
+ 140:	02 c0       	rjmp	.+4      	; 0x146 <main+0x1e>
         {
             count=count+1;
- 134:	0f 5f       	subi	r16, 0xFF	; 255
- 136:	1f 4f       	sbci	r17, 0xFF	; 255
+ 142:	0f 5f       	subi	r16, 0xFF	; 255
+ 144:	1f 4f       	sbci	r17, 0xFF	; 255
         }
-        if (flapores)
- 138:	99 23       	and	r25, r25
- 13a:	11 f0       	breq	.+4      	; 0x140 <main+0x24>
+        if (flankPowerReset)
+ 146:	99 23       	and	r25, r25
+ 148:	11 f0       	breq	.+4      	; 0x14e <main+0x26>
         {
             count=0;
- 13c:	00 e0       	ldi	r16, 0x00	; 0
- 13e:	10 e0       	ldi	r17, 0x00	; 0
+ 14a:	00 e0       	ldi	r16, 0x00	; 0
         }
         //Ausgabe
         ledWriteAll(count);
- 140:	c8 01       	movw	r24, r16
- 142:	db df       	rcall	.-74     	; 0xfa <ledWriteAll>
+ 14c:	10 e0       	ldi	r17, 0x00	; 0
+ 14e:	c8 01       	movw	r24, r16
+ 150:	da df       	rcall	.-76     	; 0x106 <ledWriteAll>
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 144:	80 e4       	ldi	r24, 0x40	; 64
- 146:	9c e9       	ldi	r25, 0x9C	; 156
- 148:	01 97       	sbiw	r24, 0x01	; 1
- 14a:	f1 f7       	brne	.-4      	; 0x148 <main+0x2c>
+ 152:	80 e4       	ldi	r24, 0x40	; 64
+ 154:	9c e9       	ldi	r25, 0x9C	; 156
+ 156:	01 97       	sbiw	r24, 0x01	; 1
+ 158:	f1 f7       	brne	.-4      	; 0x156 <main+0x2e>
     uint16_t count =0;
     while (1)
     {
         //Eingabe
-        talt=tall;
-        tall=tasterreadall();
- 14c:	cd 2f       	mov	r28, r29
- 14e:	e9 cf       	rjmp	.-46     	; 0x122 <main+0x6>
+        tasterAlt=tasterAll;
+        tasterAll=tasterreadall();
+ 15a:	cd 2f       	mov	r28, r29
+ 15c:	e9 cf       	rjmp	.-46     	; 0x130 <main+0x8>
 
-00000150 <_exit>:
- 150:	f8 94       	cli
+0000015e <_exit>:
+ 15e:	f8 94       	cli
 
-00000152 <__stop_program>:
- 152:	ff cf       	rjmp	.-2      	; 0x152 <__stop_program>
+00000160 <__stop_program>:
+ 160:	ff cf       	rjmp	.-2      	; 0x160 <__stop_program>
