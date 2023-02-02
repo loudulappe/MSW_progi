@@ -11,7 +11,7 @@
 int main(void)
 {
     initBoard();
-    uint8_t inswitch = SwitchReadAll();
+    uint8_t inswitch =0;
     #define INMASKPOWER         0b00000001
     #define OUTMASKPOWER        0b10000000
     #define INMASKTEMPERATUR    0b00000100
@@ -31,7 +31,7 @@ int main(void)
     uint8_t outgrossesfeld=0;
     while (1) 
     {
-        uint8_t inswitch = SwitchReadAll();
+        inswitch = SwitchReadAll();
         inpower = (inswitch&INMASKPOWER );                      //Eingabe
         intemperatur = (inswitch&INMASKTEMPERATUR);
         indrehknopf = ((inswitch&INMASKDREHKNOPF)>>4);
@@ -57,6 +57,10 @@ int main(void)
         if (inpower)
         {
             heizstufe=indrehknopf/3;
+            if (heizstufe>4)
+            {
+                heizstufe=4;
+            }
             outdrehknopf= ~(0xff<<heizstufe)&OUTMASKDREHKNOPF;
         }
         else
@@ -75,4 +79,3 @@ int main(void)
         ledWriteAll(outpower|outtemperatur|outdrehknopf|outgrossesfeld);            //Ausgabe
     }
 }
-

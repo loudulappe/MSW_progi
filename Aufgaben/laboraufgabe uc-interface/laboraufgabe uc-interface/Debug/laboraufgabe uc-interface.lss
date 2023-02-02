@@ -3,29 +3,29 @@ laboraufgabe uc-interface.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800200  00800200  00000186  2**0
+  0 .data         00000000  00800200  00800200  00000198  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000132  00000000  00000000  00000054  2**1
+  1 .text         00000144  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000186  2**0
+  2 .comment      00000030  00000000  00000000  00000198  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001b8  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001c8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000078  00000000  00000000  000001f8  2**0
+  4 .debug_aranges 00000078  00000000  00000000  00000208  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000f32  00000000  00000000  00000270  2**0
+  5 .debug_info   00000f48  00000000  00000000  00000280  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d03  00000000  00000000  000011a2  2**0
+  6 .debug_abbrev 00000d03  00000000  00000000  000011c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000055a  00000000  00000000  00001ea5  2**0
+  7 .debug_line   0000056c  00000000  00000000  00001ecb  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000b8  00000000  00000000  00002400  2**2
+  8 .debug_frame  000000b8  00000000  00000000  00002438  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000062f  00000000  00000000  000024b8  2**0
+  9 .debug_str    00000683  00000000  00000000  000024f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000013f  00000000  00000000  00002ae7  2**0
+ 10 .debug_loc    0000013f  00000000  00000000  00002b73  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000058  00000000  00000000  00002c26  2**0
+ 11 .debug_ranges 00000058  00000000  00000000  00002cb2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -155,8 +155,8 @@ Disassembly of section .text:
   ee:	cd bf       	out	0x3d, r28	; 61
   f0:	00 e0       	ldi	r16, 0x00	; 0
   f2:	0c bf       	out	0x3c, r16	; 60
-  f4:	0a d0       	rcall	.+20     	; 0x10a <main>
-  f6:	1b c0       	rjmp	.+54     	; 0x12e <_exit>
+  f4:	0d d0       	rcall	.+26     	; 0x110 <main>
+  f6:	24 c0       	rjmp	.+72     	; 0x140 <_exit>
 
 000000f8 <__bad_interrupt>:
   f8:	83 cf       	rjmp	.-250    	; 0x0 <__vectors>
@@ -175,54 +175,69 @@ Disassembly of section .text:
  102:	88 b9       	out	0x08, r24	; 8
  104:	08 95       	ret
 
-00000106 <SwitchReadAll>:
+00000106 <ledWriteAll>:
+ 106:	82 b9       	out	0x02, r24	; 2
+ 108:	95 b9       	out	0x05, r25	; 5
+ 10a:	08 95       	ret
+
+0000010c <SwitchReadAll>:
 
 uint8_t SwitchReadAll()
 {
     return PINC;
- 106:	86 b1       	in	r24, 0x06	; 6
+ 10c:	86 b1       	in	r24, 0x06	; 6
 }
- 108:	08 95       	ret
+ 10e:	08 95       	ret
 
-0000010a <main>:
+00000110 <main>:
 #include "ADtreiber.h"
 
 
 int main(void)
 {
     initBoard();
- 10a:	f7 df       	rcall	.-18     	; 0xfa <initBoard>
+ 110:	f4 df       	rcall	.-24     	; 0xfa <initBoard>
     DDRF = DDRF|0x01;
- 10c:	80 b3       	in	r24, 0x10	; 16
- 10e:	81 60       	ori	r24, 0x01	; 1
- 110:	80 bb       	out	0x10, r24	; 16
-    PORTF = PORTF|0x01;
- 112:	81 b3       	in	r24, 0x11	; 17
+ 112:	80 b3       	in	r24, 0x10	; 16
  114:	81 60       	ori	r24, 0x01	; 1
+ 116:	80 bb       	out	0x10, r24	; 16
+    PORTF = PORTF|0x01;
+ 118:	81 b3       	in	r24, 0x11	; 17
+ 11a:	81 60       	ori	r24, 0x01	; 1
+ 11c:	81 bb       	out	0x11, r24	; 17
+    DDRF=DDRF&0xf13;
+ 11e:	80 b3       	in	r24, 0x10	; 16
+ 120:	83 71       	andi	r24, 0x13	; 19
     while (1) 
     {
         if (SwitchReadAll()&0x01)
- 116:	81 bb       	out	0x11, r24	; 17
- 118:	f6 df       	rcall	.-20     	; 0x106 <SwitchReadAll>
- 11a:	80 ff       	sbrs	r24, 0
- 11c:	04 c0       	rjmp	.+8      	; 0x126 <main+0x1c>
+ 122:	80 bb       	out	0x10, r24	; 16
+ 124:	f3 df       	rcall	.-26     	; 0x10c <SwitchReadAll>
+ 126:	80 ff       	sbrs	r24, 0
+ 128:	04 c0       	rjmp	.+8      	; 0x132 <main+0x22>
         {
             PORTF = PORTF|0x01;
- 11e:	81 b3       	in	r24, 0x11	; 17
- 120:	81 60       	ori	r24, 0x01	; 1
- 122:	81 bb       	out	0x11, r24	; 17
- 124:	f9 cf       	rjmp	.-14     	; 0x118 <main+0xe>
+ 12a:	81 b3       	in	r24, 0x11	; 17
+ 12c:	81 60       	ori	r24, 0x01	; 1
+ 12e:	81 bb       	out	0x11, r24	; 17
+ 130:	03 c0       	rjmp	.+6      	; 0x138 <main+0x28>
         } 
         else
         {
             PORTF=PORTF&0xfe;
- 126:	81 b3       	in	r24, 0x11	; 17
- 128:	8e 7f       	andi	r24, 0xFE	; 254
- 12a:	81 bb       	out	0x11, r24	; 17
- 12c:	f5 cf       	rjmp	.-22     	; 0x118 <main+0xe>
+ 132:	81 b3       	in	r24, 0x11	; 17
+ 134:	8e 7f       	andi	r24, 0xFE	; 254
+ 136:	81 bb       	out	0x11, r24	; 17
+        }
+        ledWriteAll(PORTF);
+ 138:	81 b3       	in	r24, 0x11	; 17
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	e4 df       	rcall	.-56     	; 0x106 <ledWriteAll>
+    }
+ 13e:	f2 cf       	rjmp	.-28     	; 0x124 <main+0x14>
 
-0000012e <_exit>:
- 12e:	f8 94       	cli
+00000140 <_exit>:
+ 140:	f8 94       	cli
 
-00000130 <__stop_program>:
- 130:	ff cf       	rjmp	.-2      	; 0x130 <__stop_program>
+00000142 <__stop_program>:
+ 142:	ff cf       	rjmp	.-2      	; 0x142 <__stop_program>

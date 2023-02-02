@@ -63,8 +63,7 @@ void lauflichtFull(uint8_t delay_ms)
 
 void lauflichtFullR(uint8_t delay_ms)
 {
-    uint8_t i=0;
-    for (i=0; i<16; i=i+1)
+    for (uint8_t i=0; i<16; i=i+1)
     {
         ledWriteAll(ledReadAll()^(1<<i));
         _delay_ms(delay_ms);

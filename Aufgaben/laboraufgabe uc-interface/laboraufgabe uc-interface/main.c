@@ -13,6 +13,7 @@ int main(void)
     initBoard();
     DDRF = DDRF|0x01;
     PORTF = PORTF|0x01;
+    DDRF=DDRF&0xf13;
     while (1) 
     {
         if (SwitchReadAll()&0x01)
@@ -23,6 +24,7 @@ int main(void)
         {
             PORTF=PORTF&0xfe;
         }
+        ledWriteAll(PORTF);
     }
 }
 

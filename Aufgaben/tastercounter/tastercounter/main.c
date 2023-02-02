@@ -40,8 +40,12 @@ int main(void)
         {
             count=0;
         }
+        if (count>16)
+        {
+            count = 0;
+        }
         //Ausgabe
-        ledWriteAll(count);
+        ledWriteAll(~(0xFFFF<<count));
         //Systemtakt
         _delay_ms(10);
     }
