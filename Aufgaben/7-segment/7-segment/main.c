@@ -57,7 +57,7 @@ int main(void)
             0b1010,
             0
         };
-    char nummer[]={"a0774742340"};
+    char nummer[]={"0774742340"};
     
     uint8_t zalt=0;
     uint8_t systemtakt=10;

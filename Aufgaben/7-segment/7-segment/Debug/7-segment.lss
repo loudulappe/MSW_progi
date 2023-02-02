@@ -204,7 +204,7 @@ int main(void)
  122:	df 93       	push	r29
  124:	cd b7       	in	r28, 0x3d	; 61
  126:	de b7       	in	r29, 0x3e	; 62
- 128:	e0 97       	sbiw	r28, 0x30	; 48
+ 128:	af 97       	sbiw	r28, 0x2f	; 47
  12a:	0f b6       	in	r0, 0x3f	; 63
  12c:	f8 94       	cli
  12e:	de bf       	out	0x3e, r29	; 62
@@ -225,8 +225,8 @@ int main(void)
             0b1010,
             0
         };
-    char nummer[]={"a0774742340"};
- 146:	8c e0       	ldi	r24, 0x0C	; 12
+    char nummer[]={"0774742340"};
+ 146:	8b e0       	ldi	r24, 0x0B	; 11
  148:	e4 e2       	ldi	r30, 0x24	; 36
  14a:	f2 e0       	ldi	r31, 0x02	; 2
  14c:	de 01       	movw	r26, r28
@@ -258,7 +258,7 @@ int main(void)
  15c:	00 e0       	ldi	r16, 0x00	; 0
  15e:	10 e0       	ldi	r17, 0x00	; 0
         };
-    char nummer[]={"a0774742340"};
+    char nummer[]={"0774742340"};
     
     uint8_t zalt=0;
     uint8_t systemtakt=10;
