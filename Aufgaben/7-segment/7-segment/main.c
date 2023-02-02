@@ -7,7 +7,12 @@
 
 #include "ADtreiber.h"
     #define     ZAHLTAKT_ms 50
-    #define     MASK_ERROR  0b10000000
+    #define     sim0        1
+    #define     sim1        2
+    #define     sim2        4
+    #define     sim3        8
+    #define     sin1m       0xf
+    
 
 int main(void)
 {
@@ -24,47 +29,78 @@ int main(void)
             0b01111111,
             0b01101111,
             0b01110111,
-            0b01011110,
-            0b00111001,
             0b00011111,
+            0b00111001,
+            0b01011110,
             0b00111011,
             0b00110011,
             0b10000000,
+            0b00000000
+        };
+    const uint8_t GRAY_TO_HEX[17]=
+        {
+            0b0000,
+            0b0001,
+            0b0011,
+            0b0010,
+            0b0111,
+            0b0110,
+            0b0100,
+            0b0101,
+            0b1111,
+            0b1110,
+            0b1100,
+            0b1101,
+            0b1000,
+            0b1001,
+            0b1011,
+            0b1010,
             0
-        };  
+        };
     
-    uint8_t counter=0;
+    uint8_t zalt=0;
     uint8_t systemtakt=10;
     uint32_t systemzeit=0;
-    uint8_t zehner=0;
+    uint8_t err=0;
     uint16_t zahl=0;
     uint8_t sin1=0;
-    uint8_t sin2=0;
+    uint8_t diff=0;
+    uint8_t swin=0;
+    
     
     initBoard();
 
     while (1) 
     {
 //eingabe
-        sin1= SwitchRead(0)|SwitchRead(1)|SwitchRead(2)|SwitchRead(3);
-        sin2= (SwitchRead(4)|SwitchRead(5)|SwitchRead(6)|SwitchRead(7))>>4;  
+        swin=SwitchReadAll();
+        
+        sin1= swin&sin1m;
+        if (!err)
+        {
+            zalt=zahl;
+        }
     
-//verarbeitung
-
-    zahl=sin1+sin2;
-    if (zahl>15)
+// verarbeitung
+    zahl= GRAY_TO_HEX[sin1];
+    if (zalt<=zahl)
     {
-        zahl=18;
+        diff=zahl-zalt;
     }
-    else if ((sin1>9)||(sin2>9))
+    else
     {
-        zahl=17;
+        diff=zalt-zahl;
+    }
+    err= (diff>1)&&!(diff==15);
+    if (err)
+    {
+        zahl=16;
     }
 
-
-    
 //ausgabe
-   PORTB=HEX_TO_7SEG[zahl];
+    ledWriteAll(err);
+    PORTB=HEX_TO_7SEG[zahl];
+    
 //systemtakt
     systemzeit=systemzeit+systemtakt;
     _delay_ms(systemtakt);

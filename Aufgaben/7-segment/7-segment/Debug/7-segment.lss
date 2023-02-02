@@ -3,29 +3,29 @@
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000024  00800200  000001da  0000024e  2**0
+  0 .data         00000036  00800200  000001e6  0000025a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000001da  00000000  00000000  00000074  2**1
+  1 .text         000001e6  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000272  2**0
+  2 .comment      00000030  00000000  00000000  00000290  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002a4  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002c0  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000080  00000000  00000000  000002e4  2**0
+  4 .debug_aranges 00000080  00000000  00000000  00000300  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001122  00000000  00000000  00000364  2**0
+  5 .debug_info   000010ea  00000000  00000000  00000380  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000dcb  00000000  00000000  00001486  2**0
+  6 .debug_abbrev 00000db6  00000000  00000000  0000146a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000061a  00000000  00000000  00002251  2**0
+  7 .debug_line   00000664  00000000  00000000  00002220  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000d8  00000000  00000000  0000286c  2**2
+  8 .debug_frame  000000d8  00000000  00000000  00002884  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000671  00000000  00000000  00002944  2**0
+  9 .debug_str    00000678  00000000  00000000  0000295c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000232  00000000  00000000  00002fb5  2**0
+ 10 .debug_loc    0000029b  00000000  00000000  00002fd4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000060  00000000  00000000  000031e7  2**0
+ 11 .debug_ranges 00000060  00000000  00000000  0000326f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -160,28 +160,28 @@ Disassembly of section .text:
   f4:	12 e0       	ldi	r17, 0x02	; 2
   f6:	a0 e0       	ldi	r26, 0x00	; 0
   f8:	b2 e0       	ldi	r27, 0x02	; 2
-  fa:	ea ed       	ldi	r30, 0xDA	; 218
+  fa:	e6 ee       	ldi	r30, 0xE6	; 230
   fc:	f1 e0       	ldi	r31, 0x01	; 1
   fe:	00 e0       	ldi	r16, 0x00	; 0
  100:	0b bf       	out	0x3b, r16	; 59
  102:	02 c0       	rjmp	.+4      	; 0x108 <__do_copy_data+0x14>
  104:	07 90       	elpm	r0, Z+
  106:	0d 92       	st	X+, r0
- 108:	a4 32       	cpi	r26, 0x24	; 36
+ 108:	a6 33       	cpi	r26, 0x36	; 54
  10a:	b1 07       	cpc	r27, r17
  10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
- 10e:	12 d0       	rcall	.+36     	; 0x134 <main>
- 110:	62 c0       	rjmp	.+196    	; 0x1d6 <_exit>
+ 10e:	0d d0       	rcall	.+26     	; 0x12a <main>
+ 110:	68 c0       	rjmp	.+208    	; 0x1e2 <_exit>
 
 00000112 <__bad_interrupt>:
  112:	76 cf       	rjmp	.-276    	; 0x0 <__vectors>
 
 00000114 <initBoard>:
-}
-
-uint8_t SwitchReadAll()
-{
-    return PINC;
+    messwert |= ADCH <<8;
+    
+    ADCSRA &= 0xEF;                // Interruptflage löschen
+    
+    return messwert;
 }
  114:	8f ef       	ldi	r24, 0xFF	; 255
  116:	81 b9       	out	0x01, r24	; 1
@@ -190,158 +190,185 @@ uint8_t SwitchReadAll()
  11c:	88 b9       	out	0x08, r24	; 8
  11e:	08 95       	ret
 
-00000120 <SwitchRead>:
+00000120 <ledWriteAll>:
+ 120:	82 b9       	out	0x02, r24	; 2
+ 122:	95 b9       	out	0x05, r25	; 5
+ 124:	08 95       	ret
 
-uint8_t SwitchRead(uint8_t pos)
+00000126 <SwitchReadAll>:
+
+uint8_t SwitchReadAll()
 {
-    return ((1<<pos)&PINC);
- 120:	21 e0       	ldi	r18, 0x01	; 1
- 122:	30 e0       	ldi	r19, 0x00	; 0
- 124:	02 c0       	rjmp	.+4      	; 0x12a <SwitchRead+0xa>
- 126:	22 0f       	add	r18, r18
- 128:	33 1f       	adc	r19, r19
- 12a:	8a 95       	dec	r24
- 12c:	e2 f7       	brpl	.-8      	; 0x126 <SwitchRead+0x6>
- 12e:	86 b1       	in	r24, 0x06	; 6
+    return PINC;
+ 126:	86 b1       	in	r24, 0x06	; 6
 }
- 130:	82 23       	and	r24, r18
- 132:	08 95       	ret
+ 128:	08 95       	ret
 
-00000134 <main>:
-#include "ADtreiber.h"
-    #define     ZAHLTAKT_ms 50
-    #define     MASK_ERROR  0b10000000
+0000012a <main>:
+    #define     sim3        8
+    #define     sin1m       0xf
+    
 
 int main(void)
 {
- 134:	cf 93       	push	r28
- 136:	df 93       	push	r29
- 138:	cd b7       	in	r28, 0x3d	; 61
- 13a:	de b7       	in	r29, 0x3e	; 62
- 13c:	a4 97       	sbiw	r28, 0x24	; 36
- 13e:	0f b6       	in	r0, 0x3f	; 63
- 140:	f8 94       	cli
- 142:	de bf       	out	0x3e, r29	; 62
- 144:	0f be       	out	0x3f, r0	; 63
- 146:	cd bf       	out	0x3d, r28	; 61
+ 12a:	cf 93       	push	r28
+ 12c:	df 93       	push	r29
+ 12e:	cd b7       	in	r28, 0x3d	; 61
+ 130:	de b7       	in	r29, 0x3e	; 62
+ 132:	e5 97       	sbiw	r28, 0x35	; 53
+ 134:	0f b6       	in	r0, 0x3f	; 63
+ 136:	f8 94       	cli
+ 138:	de bf       	out	0x3e, r29	; 62
+ 13a:	0f be       	out	0x3f, r0	; 63
+ 13c:	cd bf       	out	0x3d, r28	; 61
     const uint16_t HEX_TO_7SEG[18]=
- 148:	84 e2       	ldi	r24, 0x24	; 36
- 14a:	e0 e0       	ldi	r30, 0x00	; 0
- 14c:	f2 e0       	ldi	r31, 0x02	; 2
- 14e:	de 01       	movw	r26, r28
- 150:	11 96       	adiw	r26, 0x01	; 1
- 152:	01 90       	ld	r0, Z+
- 154:	0d 92       	st	X+, r0
- 156:	8a 95       	dec	r24
- 158:	e1 f7       	brne	.-8      	; 0x152 <main+0x1e>
-    uint8_t zehner=0;
-    uint16_t zahl=0;
+ 13e:	84 e2       	ldi	r24, 0x24	; 36
+ 140:	e0 e0       	ldi	r30, 0x00	; 0
+ 142:	f2 e0       	ldi	r31, 0x02	; 2
+ 144:	de 01       	movw	r26, r28
+ 146:	11 96       	adiw	r26, 0x01	; 1
+ 148:	01 90       	ld	r0, Z+
+ 14a:	0d 92       	st	X+, r0
+ 14c:	8a 95       	dec	r24
+ 14e:	e1 f7       	brne	.-8      	; 0x148 <main+0x1e>
+            0b00111011,
+            0b00110011,
+            0b10000000,
+            0b00000000
+        };
+    const uint8_t GRAY_TO_HEX[17]=
+ 150:	81 e1       	ldi	r24, 0x11	; 17
+ 152:	e4 e2       	ldi	r30, 0x24	; 36
+ 154:	f2 e0       	ldi	r31, 0x02	; 2
+ 156:	de 01       	movw	r26, r28
+ 158:	95 96       	adiw	r26, 0x25	; 37
+ 15a:	01 90       	ld	r0, Z+
+ 15c:	0d 92       	st	X+, r0
+ 15e:	8a 95       	dec	r24
+ 160:	e1 f7       	brne	.-8      	; 0x15a <main+0x30>
     uint8_t sin1=0;
-    uint8_t sin2=0;
+    uint8_t diff=0;
+    uint8_t swin=0;
+    
     
     initBoard();
- 15a:	dc df       	rcall	.-72     	; 0x114 <initBoard>
+ 162:	d8 df       	rcall	.-80     	; 0x114 <initBoard>
+    
+    uint8_t zalt=0;
+    uint8_t systemtakt=10;
+    uint32_t systemzeit=0;
+    uint8_t err=0;
+    uint16_t zahl=0;
+ 164:	00 e0       	ldi	r16, 0x00	; 0
+ 166:	10 e0       	ldi	r17, 0x00	; 0
+        };
+    
+    uint8_t zalt=0;
+    uint8_t systemtakt=10;
+    uint32_t systemzeit=0;
+    uint8_t err=0;
+ 168:	f1 2c       	mov	r15, r1
+    initBoard();
 
     while (1) 
     {
 //eingabe
-        sin1= SwitchRead(0)|SwitchRead(1)|SwitchRead(2)|SwitchRead(3);
- 15c:	80 e0       	ldi	r24, 0x00	; 0
- 15e:	e0 df       	rcall	.-64     	; 0x120 <SwitchRead>
- 160:	08 2f       	mov	r16, r24
- 162:	81 e0       	ldi	r24, 0x01	; 1
- 164:	dd df       	rcall	.-70     	; 0x120 <SwitchRead>
- 166:	08 2b       	or	r16, r24
- 168:	82 e0       	ldi	r24, 0x02	; 2
- 16a:	da df       	rcall	.-76     	; 0x120 <SwitchRead>
- 16c:	08 2b       	or	r16, r24
- 16e:	83 e0       	ldi	r24, 0x03	; 3
- 170:	d7 df       	rcall	.-82     	; 0x120 <SwitchRead>
- 172:	08 2b       	or	r16, r24
-        sin2= (SwitchRead(4)|SwitchRead(5)|SwitchRead(6)|SwitchRead(7))>>4;  
- 174:	84 e0       	ldi	r24, 0x04	; 4
- 176:	d4 df       	rcall	.-88     	; 0x120 <SwitchRead>
- 178:	18 2f       	mov	r17, r24
- 17a:	85 e0       	ldi	r24, 0x05	; 5
- 17c:	d1 df       	rcall	.-94     	; 0x120 <SwitchRead>
- 17e:	18 2b       	or	r17, r24
- 180:	86 e0       	ldi	r24, 0x06	; 6
- 182:	ce df       	rcall	.-100    	; 0x120 <SwitchRead>
- 184:	18 2b       	or	r17, r24
- 186:	87 e0       	ldi	r24, 0x07	; 7
- 188:	cb df       	rcall	.-106    	; 0x120 <SwitchRead>
- 18a:	81 2b       	or	r24, r17
- 18c:	82 95       	swap	r24
- 18e:	8f 70       	andi	r24, 0x0F	; 15
- 190:	28 2f       	mov	r18, r24
- 192:	30 e0       	ldi	r19, 0x00	; 0
+        swin=SwitchReadAll();
+ 16a:	e1 2c       	mov	r14, r1
+ 16c:	dc df       	rcall	.-72     	; 0x126 <SwitchReadAll>
+        
+        sin1= swin&sin1m;
+ 16e:	8f 70       	andi	r24, 0x0F	; 15
+        if (!err)
+ 170:	f1 10       	cpse	r15, r1
+ 172:	01 c0       	rjmp	.+2      	; 0x176 <main+0x4c>
+        {
+            zalt=zahl;
+ 174:	e0 2e       	mov	r14, r16
+        }
     
-//verarbeitung
-
-    zahl=sin1+sin2;
- 194:	20 0f       	add	r18, r16
- 196:	31 1d       	adc	r19, r1
- 198:	20 31       	cpi	r18, 0x10	; 16
- 19a:	31 05       	cpc	r19, r1
-    if (zahl>15)
- 19c:	28 f4       	brcc	.+10     	; 0x1a8 <main+0x74>
- 19e:	0a 30       	cpi	r16, 0x0A	; 10
- 1a0:	30 f4       	brcc	.+12     	; 0x1ae <main+0x7a>
+// verarbeitung
+    zahl= GRAY_TO_HEX[sin1];
+ 176:	e5 e2       	ldi	r30, 0x25	; 37
+ 178:	f0 e0       	ldi	r31, 0x00	; 0
+ 17a:	ec 0f       	add	r30, r28
+ 17c:	fd 1f       	adc	r31, r29
+ 17e:	e8 0f       	add	r30, r24
+ 180:	f1 1d       	adc	r31, r1
+ 182:	80 81       	ld	r24, Z
+ 184:	08 2f       	mov	r16, r24
+ 186:	10 e0       	ldi	r17, 0x00	; 0
+    if (zalt<=zahl)
+ 188:	2e 2d       	mov	r18, r14
+ 18a:	30 e0       	ldi	r19, 0x00	; 0
+ 18c:	02 17       	cp	r16, r18
+ 18e:	13 07       	cpc	r17, r19
+ 190:	10 f0       	brcs	.+4      	; 0x196 <main+0x6c>
     {
-        zahl=18;
+        diff=zahl-zalt;
+ 192:	8e 19       	sub	r24, r14
+ 194:	03 c0       	rjmp	.+6      	; 0x19c <main+0x72>
     }
-    else if ((sin1>9)||(sin2>9))
- 1a2:	8a 30       	cpi	r24, 0x0A	; 10
- 1a4:	38 f4       	brcc	.+14     	; 0x1b4 <main+0x80>
- 1a6:	08 c0       	rjmp	.+16     	; 0x1b8 <main+0x84>
- 1a8:	22 e1       	ldi	r18, 0x12	; 18
- 1aa:	30 e0       	ldi	r19, 0x00	; 0
-//verarbeitung
-
-    zahl=sin1+sin2;
-    if (zahl>15)
+    else
     {
-        zahl=18;
- 1ac:	05 c0       	rjmp	.+10     	; 0x1b8 <main+0x84>
- 1ae:	21 e1       	ldi	r18, 0x11	; 17
- 1b0:	30 e0       	ldi	r19, 0x00	; 0
+        diff=zalt-zahl;
+ 196:	9e 2d       	mov	r25, r14
+ 198:	98 1b       	sub	r25, r24
+ 19a:	89 2f       	mov	r24, r25
     }
-    else if ((sin1>9)||(sin2>9))
+    err= (diff>1)&&!(diff==15);
+ 19c:	82 30       	cpi	r24, 0x02	; 2
+ 19e:	28 f0       	brcs	.+10     	; 0x1aa <main+0x80>
+ 1a0:	8f 30       	cpi	r24, 0x0F	; 15
+ 1a2:	31 f4       	brne	.+12     	; 0x1b0 <main+0x86>
+ 1a4:	80 e0       	ldi	r24, 0x00	; 0
+ 1a6:	90 e0       	ldi	r25, 0x00	; 0
+ 1a8:	05 c0       	rjmp	.+10     	; 0x1b4 <main+0x8a>
+ 1aa:	80 e0       	ldi	r24, 0x00	; 0
+ 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 1ae:	02 c0       	rjmp	.+4      	; 0x1b4 <main+0x8a>
+ 1b0:	81 e0       	ldi	r24, 0x01	; 1
+ 1b2:	90 e0       	ldi	r25, 0x00	; 0
+ 1b4:	f8 2e       	mov	r15, r24
+    if (err)
+ 1b6:	88 23       	and	r24, r24
+ 1b8:	11 f0       	breq	.+4      	; 0x1be <main+0x94>
     {
-        zahl=17;
- 1b2:	02 c0       	rjmp	.+4      	; 0x1b8 <main+0x84>
- 1b4:	21 e1       	ldi	r18, 0x11	; 17
- 1b6:	30 e0       	ldi	r19, 0x00	; 0
- 1b8:	22 0f       	add	r18, r18
- 1ba:	33 1f       	adc	r19, r19
+        zahl=16;
+ 1ba:	00 e1       	ldi	r16, 0x10	; 16
     }
 
-
-    
 //ausgabe
-   PORTB=HEX_TO_7SEG[zahl];
- 1bc:	e1 e0       	ldi	r30, 0x01	; 1
- 1be:	f0 e0       	ldi	r31, 0x00	; 0
- 1c0:	ec 0f       	add	r30, r28
- 1c2:	fd 1f       	adc	r31, r29
- 1c4:	e2 0f       	add	r30, r18
- 1c6:	f3 1f       	adc	r31, r19
- 1c8:	80 81       	ld	r24, Z
- 1ca:	85 b9       	out	0x05, r24	; 5
- 1cc:	80 e4       	ldi	r24, 0x40	; 64
- 1ce:	9c e9       	ldi	r25, 0x9C	; 156
+    ledWriteAll(err);
+ 1bc:	10 e0       	ldi	r17, 0x00	; 0
+ 1be:	99 27       	eor	r25, r25
+ 1c0:	af df       	rcall	.-162    	; 0x120 <ledWriteAll>
+    PORTB=HEX_TO_7SEG[zahl];
+ 1c2:	f8 01       	movw	r30, r16
+ 1c4:	ee 0f       	add	r30, r30
+ 1c6:	ff 1f       	adc	r31, r31
+ 1c8:	81 e0       	ldi	r24, 0x01	; 1
+ 1ca:	90 e0       	ldi	r25, 0x00	; 0
+ 1cc:	8c 0f       	add	r24, r28
+ 1ce:	9d 1f       	adc	r25, r29
+ 1d0:	e8 0f       	add	r30, r24
+ 1d2:	f9 1f       	adc	r31, r25
+ 1d4:	80 81       	ld	r24, Z
+ 1d6:	85 b9       	out	0x05, r24	; 5
     milliseconds can be achieved.
  */
 void
 _delay_loop_2(uint16_t __count)
 {
 	__asm__ volatile (
- 1d0:	01 97       	sbiw	r24, 0x01	; 1
- 1d2:	f1 f7       	brne	.-4      	; 0x1d0 <main+0x9c>
- 1d4:	c3 cf       	rjmp	.-122    	; 0x15c <main+0x28>
+ 1d8:	80 e4       	ldi	r24, 0x40	; 64
+ 1da:	9c e9       	ldi	r25, 0x9C	; 156
+ 1dc:	01 97       	sbiw	r24, 0x01	; 1
+ 1de:	f1 f7       	brne	.-4      	; 0x1dc <main+0xb2>
+ 1e0:	c5 cf       	rjmp	.-118    	; 0x16c <main+0x42>
 
-000001d6 <_exit>:
- 1d6:	f8 94       	cli
+000001e2 <_exit>:
+ 1e2:	f8 94       	cli
 
-000001d8 <__stop_program>:
- 1d8:	ff cf       	rjmp	.-2      	; 0x1d8 <__stop_program>
+000001e4 <__stop_program>:
+ 1e4:	ff cf       	rjmp	.-2      	; 0x1e4 <__stop_program>
