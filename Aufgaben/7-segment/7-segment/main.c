@@ -34,7 +34,7 @@ int main(void)
             0b01011110,
             0b00111011,
             0b00110011,
-            0b10000000,
+            0b00000010,
             0b00000000
         };
     const uint8_t GRAY_TO_HEX[17]=
@@ -57,15 +57,17 @@ int main(void)
             0b1010,
             0
         };
+    char nummer[]={"a0774742340"};
     
     uint8_t zalt=0;
     uint8_t systemtakt=10;
     uint32_t systemzeit=0;
     uint8_t err=0;
     uint16_t zahl=0;
-    uint8_t sin1=0;
-    uint8_t diff=0;
+    uint8_t ziffer=0;
+    uint16_t diff=0;
     uint8_t swin=0;
+    uint8_t i=0;
     
     
     initBoard();
@@ -73,34 +75,39 @@ int main(void)
     while (1) 
     {
 //eingabe
-        swin=SwitchReadAll();
-        
-        sin1= swin&sin1m;
-        if (!err)
-        {
-            zalt=zahl;
-        }
+
     
-// verarbeitung
-    zahl= GRAY_TO_HEX[sin1];
-    if (zalt<=zahl)
+//verarbeitung
+    if (!(systemzeit%600))
     {
-        diff=zahl-zalt;
+        if (nummer[i])
+        {
+            if ((nummer[i]>='0')&&(nummer[i]<='9'))
+            {
+                zahl=nummer[i]-48;
+            }
+            else
+            {
+                zahl=16;
+            }
+        }
+        else
+        {
+            i=0;
+        }        
+    i=i+1;
+    }            
+
+//ausgabe
+    if ((systemzeit%600)<500)
+    {
+        PORTB=HEX_TO_7SEG[zahl];
     }
     else
     {
-        diff=zalt-zahl;
+        PORTB=HEX_TO_7SEG[17];
     }
-    err= (diff>1)&&!(diff==15);
-    if (err)
-    {
-        zahl=16;
-    }
-
-//ausgabe
-    ledWriteAll(err);
-    PORTB=HEX_TO_7SEG[zahl];
-    
+   
 //systemtakt
     systemzeit=systemzeit+systemtakt;
     _delay_ms(systemtakt);
