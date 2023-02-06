@@ -5,13 +5,13 @@
  * Author : e1Derung
  */
 // 1)       
-// for (uint16_t i=0; i<SIZE; i=i+1)
-// {
-//     if (zufallszahlen[i]==7)
-//     {
-//         ledWriteAll(0xffff);
-//     }
-// } 
+//      for (uint16_t i=0; i<SIZE; i=i+1)
+//      {
+//          if (zufallszahlen[i]==7)
+//          {
+//              ledWriteAll(0xffff);
+//          }
+//      } 
 // 2)
 //         for (uint16_t i=0; i<SIZE; i=i+1)
 //         {
@@ -38,17 +38,17 @@
 //         ledWriteAll(counter);
 //         break;
 // 4)        counter=0;
-// for (uint16_t i=0; i<SIZE; i=i+1)
-// {
-//     if (zufallszahlen[i]==15)
-//     {
-//         counter=i;
-//     }
-// }
+//      for (uint16_t i=0; i<SIZE; i=i+1)
+//      {
+//          if (zufallszahlen[i]==15)
+//          {
+//              counter=i;
+//          }
+//      }
 // 
-// //ausgabe
-// ledWriteAll(counter);
-// break;
+//      //ausgabe
+//      ledWriteAll(counter);
+//      break;
 // 5)
 //         counter=0;
 //         for (uint16_t i=0; i<SIZE; i=i+1)
@@ -62,58 +62,67 @@
 //         //ausgabe
 //         ledWriteAll(counter);
 //         break;
-
-
+//6)      
+//         counter=0;
+//         for (uint16_t i=0; i<SIZE; i=i+1)
+//         {
+//          if (counter<(zufallszahlen[i]))
+//          {
+//          counter=zufallszahlen[i];
+//          place=i;
+//          }
+//      }
+//
 #include "ADtreiber.h"
 #define systemtakt      30
-#define SIZE            200
+#define SIZE            100
+#pragma GCC optimize 0
 
 int main(void)
 {
     initBoard();
-    uint16_t zufallszahlen [SIZE] = {
-        10,  2, 11,  7,  3,  3,  7,  9,  3,  6,
-        13,  5, 12, 14,  0,  0, 12,  8,  5, 15,
-        15,  3,  0, 14,  0,  0,  0, 13,  0,  8,
-        7, 13,  5, 10,  8, 15,  1,  0,  6,  7,
-        2,  8,  0,  8, 12, 10,  8, 10, 13,  0,
-        0,  9,  2,  1,  4, 15,  9, 14,  6,  1,
-        3,  7,  0,  4,  8, 14,  7, 13, 14,  2,
-        2,  8,  0,  8, 12, 10,  8, 10, 13,  0,
-        8,  0, 11, 13,  1,  0,  0,  9,  8,  0,
-        6,  5, 10, 10,  6, 11,  8, 11,  7,  3,
-        13,  5,  4,  3,  2, 11, 13, 10, 15,  2,
-        2,  8,  0,  8, 12, 10,  8, 10, 13,  0,
-        11,  6,  4,  5,  7,  0, 13,  5,  2, 10,
-        11, 15, 11,  8, 10, 14,  9,  8,  7,  3,
-        13,  9,  5, 10,  5,  8,  0, 13,  8,  7,
-        4, 11, 10, 14,  8, 11,  4, 12,  6, 11,
-        15, 14, 13,  0,  8, 11,  8,  0,  5, 12,
-        12, 15,  7, 12,  4, 13, 12,  1,  4,  1,
-        5,  7,  9,  8,  3,  3,  7, 12,  1,  2,
-        6,  8,  9,  7,  0,  3,  8,  6,  6, 11};
-        uint16_t counter=0;
-        uint16_t place=0;
-     
-    while (1) 
+    uint16_t testArray[SIZE] =
     {
-//eingabe
-
-        
-//verarbeitung
-        counter=0;
-        for (uint16_t i=0; i<SIZE; i=i+1)
+        43281, 22997, 41494, 34816, 12464,  3561, 43247, 23766, 19368,  7613,
+        35475, 41126, 21888, 28764, 23863, 25549, 46667, 61837, 32188, 63352,
+        14076, 12714, 40745, 27126, 12280, 29764, 12883, 63651, 16275,  4568,
+         5510, 29348, 20128,  4002, 36525,  9829, 39160, 46921,  4640, 58713,
+        27752, 14700, 63101,  9603, 16441,  6517, 20308, 44992, 10797, 57575,
+        18275, 53024, 18787, 63561,  8630, 37153, 34816, 15937, 17232, 30198,
+        55355, 57460,  5127, 36927, 15777,  4002, 32450, 18189,  8480, 16396,
+        27911, 11533, 16461, 40099, 31239, 53667, 39818,  2253, 62228,  2284,
+         5797, 65271,  1783, 61756, 23743, 26248,  2212,  4002, 31030, 47946,
+        11933, 22958, 61231, 57095, 39850, 39160, 47316, 53204, 20357,  2753
+    };
+    uint16_t Ergebnis[SIZE] ={0};
+    uint16_t counter=0;
+    uint16_t border=0;
+    uint16_t stelle=0;
+    uint16_t zwischenspeicher2=0;
+    uint16_t limit=0;
+    for (uint16_t i=0; i<SIZE; i=i+1)
         {
-            if (counter<(zufallszahlen[i]))
+        if (testArray[i]>limit)
+        {
+            limit=testArray[i];
+        }
+    }
+    for (uint16_t i=0; i<=limit; i=i+1)
+    {
+        for (uint16_t j=0; j<SIZE; j=j+1)
+        {
+            if (testArray[j]==i)
             {
-                counter=zufallszahlen[i];
-                place=i;
+                counter=counter+1;
             }
         }
-
-//ausgabe
-        ledWriteAll(place);
-        break;
+        border=stelle+counter;
+        while (stelle<border)
+        {
+            Ergebnis[stelle]=i;
+            stelle=stelle+1;
+        }
+        counter=0;
     }
 }
 
