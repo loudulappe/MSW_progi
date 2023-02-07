@@ -100,6 +100,8 @@ int main(void)
     uint16_t stelle=0;
     uint16_t zwischenspeicher2=0;
     uint16_t limit=0;
+    uint16_t zifferkontrolle=0;
+    ledWriteAll(0);
     for (uint16_t i=0; i<SIZE; i=i+1)
         {
         if (testArray[i]>limit)
@@ -109,6 +111,7 @@ int main(void)
     }
     for (uint16_t i=0; i<=limit; i=i+1)
     {
+
         for (uint16_t j=0; j<SIZE; j=j+1)
         {
             if (testArray[j]==i)
@@ -124,5 +127,6 @@ int main(void)
         }
         counter=0;
     }
+    ledWriteAll(0xffff);
 }
 

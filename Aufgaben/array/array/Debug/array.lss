@@ -3,29 +3,29 @@ array.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000000c8  00800200  0000029a  0000030e  2**0
+  0 .data         000000c8  00800200  000002b0  00000324  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000029a  00000000  00000000  00000074  2**1
+  1 .text         000002b0  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000003d6  2**0
+  2 .comment      00000030  00000000  00000000  000003ec  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000408  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000041c  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000080  00000000  00000000  00000448  2**0
+  4 .debug_aranges 00000080  00000000  00000000  0000045c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00001005  00000000  00000000  000004c8  2**0
+  5 .debug_info   00001052  00000000  00000000  000004dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000d39  00000000  00000000  000014cd  2**0
+  6 .debug_abbrev 00000d5d  00000000  00000000  0000152e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000061e  00000000  00000000  00002206  2**0
+  7 .debug_line   00000630  00000000  00000000  0000228b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000dc  00000000  00000000  00002824  2**2
+  8 .debug_frame  000000dc  00000000  00000000  000028bc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000661  00000000  00000000  00002900  2**0
+  9 .debug_str    00000671  00000000  00000000  00002998  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000030e  00000000  00000000  00002f61  2**0
+ 10 .debug_loc    00000301  00000000  00000000  00003009  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000060  00000000  00000000  0000326f  2**0
+ 11 .debug_ranges 00000060  00000000  00000000  0000330a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -160,7 +160,7 @@ Disassembly of section .text:
   f4:	12 e0       	ldi	r17, 0x02	; 2
   f6:	a0 e0       	ldi	r26, 0x00	; 0
   f8:	b2 e0       	ldi	r27, 0x02	; 2
-  fa:	ea e9       	ldi	r30, 0x9A	; 154
+  fa:	e0 eb       	ldi	r30, 0xB0	; 176
   fc:	f2 e0       	ldi	r31, 0x02	; 2
   fe:	00 e0       	ldi	r16, 0x00	; 0
  100:	0b bf       	out	0x3b, r16	; 59
@@ -170,8 +170,8 @@ Disassembly of section .text:
  108:	a8 3c       	cpi	r26, 0xC8	; 200
  10a:	b1 07       	cpc	r27, r17
  10c:	d9 f7       	brne	.-10     	; 0x104 <__do_copy_data+0x10>
- 10e:	08 d0       	rcall	.+16     	; 0x120 <main>
- 110:	c2 c0       	rjmp	.+388    	; 0x296 <_exit>
+ 10e:	0b d0       	rcall	.+22     	; 0x126 <main>
+ 110:	cd c0       	rjmp	.+410    	; 0x2ac <_exit>
 
 00000112 <__bad_interrupt>:
  112:	76 cf       	rjmp	.-276    	; 0x0 <__vectors>
@@ -193,278 +193,301 @@ void initBoard(void)
  11c:	88 b9       	out	0x08, r24	; 8
  11e:	08 95       	ret
 
-00000120 <main>:
+00000120 <ledWriteAll>:
+}
+
+void ledWriteAll(uint16_t bitmuster)
+{
+    PORTA = bitmuster;
+ 120:	82 b9       	out	0x02, r24	; 2
+    PORTB = bitmuster >>8;
+ 122:	95 b9       	out	0x05, r25	; 5
+ 124:	08 95       	ret
+
+00000126 <main>:
 #define systemtakt      30
 #define SIZE            100
 #pragma GCC optimize 0
 
 int main(void)
 {
- 120:	cf 93       	push	r28
- 122:	df 93       	push	r29
- 124:	cd b7       	in	r28, 0x3d	; 61
- 126:	de b7       	in	r29, 0x3e	; 62
- 128:	c0 5a       	subi	r28, 0xA0	; 160
- 12a:	d1 40       	sbci	r29, 0x01	; 1
- 12c:	0f b6       	in	r0, 0x3f	; 63
- 12e:	f8 94       	cli
- 130:	de bf       	out	0x3e, r29	; 62
- 132:	0f be       	out	0x3f, r0	; 63
- 134:	cd bf       	out	0x3d, r28	; 61
+ 126:	cf 93       	push	r28
+ 128:	df 93       	push	r29
+ 12a:	cd b7       	in	r28, 0x3d	; 61
+ 12c:	de b7       	in	r29, 0x3e	; 62
+ 12e:	c2 5a       	subi	r28, 0xA2	; 162
+ 130:	d1 40       	sbci	r29, 0x01	; 1
+ 132:	0f b6       	in	r0, 0x3f	; 63
+ 134:	f8 94       	cli
+ 136:	de bf       	out	0x3e, r29	; 62
+ 138:	0f be       	out	0x3f, r0	; 63
+ 13a:	cd bf       	out	0x3d, r28	; 61
     initBoard();
- 136:	ee df       	rcall	.-36     	; 0x114 <initBoard>
+ 13c:	eb df       	rcall	.-42     	; 0x114 <initBoard>
     uint16_t testArray[SIZE] =
- 138:	88 ec       	ldi	r24, 0xC8	; 200
- 13a:	e0 e0       	ldi	r30, 0x00	; 0
- 13c:	f2 e0       	ldi	r31, 0x02	; 2
- 13e:	de 01       	movw	r26, r28
- 140:	51 96       	adiw	r26, 0x11	; 17
- 142:	01 90       	ld	r0, Z+
- 144:	0d 92       	st	X+, r0
- 146:	8a 95       	dec	r24
- 148:	e1 f7       	brne	.-8      	; 0x142 <main+0x22>
+ 13e:	88 ec       	ldi	r24, 0xC8	; 200
+ 140:	e0 e0       	ldi	r30, 0x00	; 0
+ 142:	f2 e0       	ldi	r31, 0x02	; 2
+ 144:	de 01       	movw	r26, r28
+ 146:	53 96       	adiw	r26, 0x13	; 19
+ 148:	01 90       	ld	r0, Z+
+ 14a:	0d 92       	st	X+, r0
+ 14c:	8a 95       	dec	r24
+ 14e:	e1 f7       	brne	.-8      	; 0x148 <main+0x22>
         55355, 57460,  5127, 36927, 15777,  4002, 32450, 18189,  8480, 16396,
         27911, 11533, 16461, 40099, 31239, 53667, 39818,  2253, 62228,  2284,
          5797, 65271,  1783, 61756, 23743, 26248,  2212,  4002, 31030, 47946,
         11933, 22958, 61231, 57095, 39850, 39160, 47316, 53204, 20357,  2753
     };
     uint16_t Ergebnis[SIZE] ={0};
- 14a:	ce 01       	movw	r24, r28
- 14c:	87 52       	subi	r24, 0x27	; 39
- 14e:	9f 4f       	sbci	r25, 0xFF	; 255
- 150:	28 ec       	ldi	r18, 0xC8	; 200
- 152:	fc 01       	movw	r30, r24
- 154:	32 2f       	mov	r19, r18
- 156:	11 92       	st	Z+, r1
- 158:	3a 95       	dec	r19
- 15a:	e9 f7       	brne	.-6      	; 0x156 <main+0x36>
+ 150:	ce 01       	movw	r24, r28
+ 152:	85 52       	subi	r24, 0x25	; 37
+ 154:	9f 4f       	sbci	r25, 0xFF	; 255
+ 156:	28 ec       	ldi	r18, 0xC8	; 200
+ 158:	fc 01       	movw	r30, r24
+ 15a:	32 2f       	mov	r19, r18
+ 15c:	11 92       	st	Z+, r1
+ 15e:	3a 95       	dec	r19
+ 160:	e9 f7       	brne	.-6      	; 0x15c <main+0x36>
     uint16_t counter=0;
- 15c:	1a 82       	std	Y+2, r1	; 0x02
- 15e:	19 82       	std	Y+1, r1	; 0x01
+ 162:	1a 82       	std	Y+2, r1	; 0x02
+ 164:	19 82       	std	Y+1, r1	; 0x01
     uint16_t border=0;
- 160:	1e 86       	std	Y+14, r1	; 0x0e
- 162:	1d 86       	std	Y+13, r1	; 0x0d
+ 166:	1e 86       	std	Y+14, r1	; 0x0e
+ 168:	1d 86       	std	Y+13, r1	; 0x0d
     uint16_t stelle=0;
- 164:	1c 82       	std	Y+4, r1	; 0x04
- 166:	1b 82       	std	Y+3, r1	; 0x03
+ 16a:	1c 82       	std	Y+4, r1	; 0x04
+ 16c:	1b 82       	std	Y+3, r1	; 0x03
     uint16_t zwischenspeicher2=0;
- 168:	18 8a       	std	Y+16, r1	; 0x10
- 16a:	1f 86       	std	Y+15, r1	; 0x0f
+ 16e:	18 8a       	std	Y+16, r1	; 0x10
+ 170:	1f 86       	std	Y+15, r1	; 0x0f
     uint16_t limit=0;
- 16c:	1e 82       	std	Y+6, r1	; 0x06
- 16e:	1d 82       	std	Y+5, r1	; 0x05
+ 172:	1e 82       	std	Y+6, r1	; 0x06
+ 174:	1d 82       	std	Y+5, r1	; 0x05
+    uint16_t zifferkontrolle=0;
+ 176:	1a 8a       	std	Y+18, r1	; 0x12
+ 178:	19 8a       	std	Y+17, r1	; 0x11
+    ledWriteAll(0);
+ 17a:	80 e0       	ldi	r24, 0x00	; 0
+ 17c:	90 e0       	ldi	r25, 0x00	; 0
+ 17e:	d0 df       	rcall	.-96     	; 0x120 <ledWriteAll>
     for (uint16_t i=0; i<SIZE; i=i+1)
- 170:	18 86       	std	Y+8, r1	; 0x08
- 172:	1f 82       	std	Y+7, r1	; 0x07
- 174:	26 c0       	rjmp	.+76     	; 0x1c2 <main+0xa2>
+ 180:	18 86       	std	Y+8, r1	; 0x08
+ 182:	1f 82       	std	Y+7, r1	; 0x07
+ 184:	26 c0       	rjmp	.+76     	; 0x1d2 <main+0xac>
         {
         if (testArray[i]>limit)
- 176:	8f 81       	ldd	r24, Y+7	; 0x07
- 178:	98 85       	ldd	r25, Y+8	; 0x08
- 17a:	88 0f       	add	r24, r24
- 17c:	99 1f       	adc	r25, r25
- 17e:	9e 01       	movw	r18, r28
- 180:	2f 5f       	subi	r18, 0xFF	; 255
- 182:	3f 4f       	sbci	r19, 0xFF	; 255
- 184:	82 0f       	add	r24, r18
- 186:	93 1f       	adc	r25, r19
- 188:	40 96       	adiw	r24, 0x10	; 16
- 18a:	fc 01       	movw	r30, r24
- 18c:	20 81       	ld	r18, Z
- 18e:	31 81       	ldd	r19, Z+1	; 0x01
- 190:	8d 81       	ldd	r24, Y+5	; 0x05
- 192:	9e 81       	ldd	r25, Y+6	; 0x06
- 194:	82 17       	cp	r24, r18
- 196:	93 07       	cpc	r25, r19
- 198:	78 f4       	brcc	.+30     	; 0x1b8 <main+0x98>
+ 186:	8f 81       	ldd	r24, Y+7	; 0x07
+ 188:	98 85       	ldd	r25, Y+8	; 0x08
+ 18a:	88 0f       	add	r24, r24
+ 18c:	99 1f       	adc	r25, r25
+ 18e:	9e 01       	movw	r18, r28
+ 190:	2f 5f       	subi	r18, 0xFF	; 255
+ 192:	3f 4f       	sbci	r19, 0xFF	; 255
+ 194:	82 0f       	add	r24, r18
+ 196:	93 1f       	adc	r25, r19
+ 198:	42 96       	adiw	r24, 0x12	; 18
+ 19a:	fc 01       	movw	r30, r24
+ 19c:	20 81       	ld	r18, Z
+ 19e:	31 81       	ldd	r19, Z+1	; 0x01
+ 1a0:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1a2:	9e 81       	ldd	r25, Y+6	; 0x06
+ 1a4:	82 17       	cp	r24, r18
+ 1a6:	93 07       	cpc	r25, r19
+ 1a8:	78 f4       	brcc	.+30     	; 0x1c8 <main+0xa2>
         {
             limit=testArray[i];
- 19a:	8f 81       	ldd	r24, Y+7	; 0x07
- 19c:	98 85       	ldd	r25, Y+8	; 0x08
- 19e:	88 0f       	add	r24, r24
- 1a0:	99 1f       	adc	r25, r25
- 1a2:	9e 01       	movw	r18, r28
- 1a4:	2f 5f       	subi	r18, 0xFF	; 255
- 1a6:	3f 4f       	sbci	r19, 0xFF	; 255
- 1a8:	82 0f       	add	r24, r18
- 1aa:	93 1f       	adc	r25, r19
- 1ac:	40 96       	adiw	r24, 0x10	; 16
- 1ae:	fc 01       	movw	r30, r24
- 1b0:	80 81       	ld	r24, Z
- 1b2:	91 81       	ldd	r25, Z+1	; 0x01
- 1b4:	9e 83       	std	Y+6, r25	; 0x06
- 1b6:	8d 83       	std	Y+5, r24	; 0x05
-    uint16_t counter=0;
-    uint16_t border=0;
+ 1aa:	8f 81       	ldd	r24, Y+7	; 0x07
+ 1ac:	98 85       	ldd	r25, Y+8	; 0x08
+ 1ae:	88 0f       	add	r24, r24
+ 1b0:	99 1f       	adc	r25, r25
+ 1b2:	9e 01       	movw	r18, r28
+ 1b4:	2f 5f       	subi	r18, 0xFF	; 255
+ 1b6:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1b8:	82 0f       	add	r24, r18
+ 1ba:	93 1f       	adc	r25, r19
+ 1bc:	42 96       	adiw	r24, 0x12	; 18
+ 1be:	fc 01       	movw	r30, r24
+ 1c0:	80 81       	ld	r24, Z
+ 1c2:	91 81       	ldd	r25, Z+1	; 0x01
+ 1c4:	9e 83       	std	Y+6, r25	; 0x06
+ 1c6:	8d 83       	std	Y+5, r24	; 0x05
     uint16_t stelle=0;
     uint16_t zwischenspeicher2=0;
     uint16_t limit=0;
+    uint16_t zifferkontrolle=0;
+    ledWriteAll(0);
     for (uint16_t i=0; i<SIZE; i=i+1)
- 1b8:	8f 81       	ldd	r24, Y+7	; 0x07
- 1ba:	98 85       	ldd	r25, Y+8	; 0x08
- 1bc:	01 96       	adiw	r24, 0x01	; 1
- 1be:	98 87       	std	Y+8, r25	; 0x08
- 1c0:	8f 83       	std	Y+7, r24	; 0x07
- 1c2:	8f 81       	ldd	r24, Y+7	; 0x07
- 1c4:	98 85       	ldd	r25, Y+8	; 0x08
- 1c6:	84 36       	cpi	r24, 0x64	; 100
- 1c8:	91 05       	cpc	r25, r1
- 1ca:	a8 f2       	brcs	.-86     	; 0x176 <main+0x56>
+ 1c8:	8f 81       	ldd	r24, Y+7	; 0x07
+ 1ca:	98 85       	ldd	r25, Y+8	; 0x08
+ 1cc:	01 96       	adiw	r24, 0x01	; 1
+ 1ce:	98 87       	std	Y+8, r25	; 0x08
+ 1d0:	8f 83       	std	Y+7, r24	; 0x07
+ 1d2:	8f 81       	ldd	r24, Y+7	; 0x07
+ 1d4:	98 85       	ldd	r25, Y+8	; 0x08
+ 1d6:	84 36       	cpi	r24, 0x64	; 100
+ 1d8:	91 05       	cpc	r25, r1
+ 1da:	a8 f2       	brcs	.-86     	; 0x186 <main+0x60>
         if (testArray[i]>limit)
         {
             limit=testArray[i];
         }
     }
     for (uint16_t i=0; i<=limit; i=i+1)
- 1cc:	1a 86       	std	Y+10, r1	; 0x0a
- 1ce:	19 86       	std	Y+9, r1	; 0x09
- 1d0:	4e c0       	rjmp	.+156    	; 0x26e <main+0x14e>
+ 1dc:	1a 86       	std	Y+10, r1	; 0x0a
+ 1de:	19 86       	std	Y+9, r1	; 0x09
+ 1e0:	4e c0       	rjmp	.+156    	; 0x27e <main+0x158>
     {
+
         for (uint16_t j=0; j<SIZE; j=j+1)
- 1d2:	1c 86       	std	Y+12, r1	; 0x0c
- 1d4:	1b 86       	std	Y+11, r1	; 0x0b
- 1d6:	1c c0       	rjmp	.+56     	; 0x210 <main+0xf0>
+ 1e2:	1c 86       	std	Y+12, r1	; 0x0c
+ 1e4:	1b 86       	std	Y+11, r1	; 0x0b
+ 1e6:	1c c0       	rjmp	.+56     	; 0x220 <main+0xfa>
         {
             if (testArray[j]==i)
- 1d8:	8b 85       	ldd	r24, Y+11	; 0x0b
- 1da:	9c 85       	ldd	r25, Y+12	; 0x0c
- 1dc:	88 0f       	add	r24, r24
- 1de:	99 1f       	adc	r25, r25
- 1e0:	9e 01       	movw	r18, r28
- 1e2:	2f 5f       	subi	r18, 0xFF	; 255
- 1e4:	3f 4f       	sbci	r19, 0xFF	; 255
- 1e6:	82 0f       	add	r24, r18
- 1e8:	93 1f       	adc	r25, r19
- 1ea:	40 96       	adiw	r24, 0x10	; 16
- 1ec:	fc 01       	movw	r30, r24
- 1ee:	20 81       	ld	r18, Z
- 1f0:	31 81       	ldd	r19, Z+1	; 0x01
- 1f2:	89 85       	ldd	r24, Y+9	; 0x09
- 1f4:	9a 85       	ldd	r25, Y+10	; 0x0a
- 1f6:	28 17       	cp	r18, r24
- 1f8:	39 07       	cpc	r19, r25
- 1fa:	29 f4       	brne	.+10     	; 0x206 <main+0xe6>
+ 1e8:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 1ea:	9c 85       	ldd	r25, Y+12	; 0x0c
+ 1ec:	88 0f       	add	r24, r24
+ 1ee:	99 1f       	adc	r25, r25
+ 1f0:	9e 01       	movw	r18, r28
+ 1f2:	2f 5f       	subi	r18, 0xFF	; 255
+ 1f4:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1f6:	82 0f       	add	r24, r18
+ 1f8:	93 1f       	adc	r25, r19
+ 1fa:	42 96       	adiw	r24, 0x12	; 18
+ 1fc:	fc 01       	movw	r30, r24
+ 1fe:	20 81       	ld	r18, Z
+ 200:	31 81       	ldd	r19, Z+1	; 0x01
+ 202:	89 85       	ldd	r24, Y+9	; 0x09
+ 204:	9a 85       	ldd	r25, Y+10	; 0x0a
+ 206:	28 17       	cp	r18, r24
+ 208:	39 07       	cpc	r19, r25
+ 20a:	29 f4       	brne	.+10     	; 0x216 <main+0xf0>
             {
                 counter=counter+1;
- 1fc:	89 81       	ldd	r24, Y+1	; 0x01
- 1fe:	9a 81       	ldd	r25, Y+2	; 0x02
- 200:	01 96       	adiw	r24, 0x01	; 1
- 202:	9a 83       	std	Y+2, r25	; 0x02
- 204:	89 83       	std	Y+1, r24	; 0x01
-            limit=testArray[i];
+ 20c:	89 81       	ldd	r24, Y+1	; 0x01
+ 20e:	9a 81       	ldd	r25, Y+2	; 0x02
+ 210:	01 96       	adiw	r24, 0x01	; 1
+ 212:	9a 83       	std	Y+2, r25	; 0x02
+ 214:	89 83       	std	Y+1, r24	; 0x01
         }
     }
     for (uint16_t i=0; i<=limit; i=i+1)
     {
+
         for (uint16_t j=0; j<SIZE; j=j+1)
- 206:	8b 85       	ldd	r24, Y+11	; 0x0b
- 208:	9c 85       	ldd	r25, Y+12	; 0x0c
- 20a:	01 96       	adiw	r24, 0x01	; 1
- 20c:	9c 87       	std	Y+12, r25	; 0x0c
- 20e:	8b 87       	std	Y+11, r24	; 0x0b
- 210:	8b 85       	ldd	r24, Y+11	; 0x0b
- 212:	9c 85       	ldd	r25, Y+12	; 0x0c
- 214:	84 36       	cpi	r24, 0x64	; 100
- 216:	91 05       	cpc	r25, r1
- 218:	f8 f2       	brcs	.-66     	; 0x1d8 <main+0xb8>
+ 216:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 218:	9c 85       	ldd	r25, Y+12	; 0x0c
+ 21a:	01 96       	adiw	r24, 0x01	; 1
+ 21c:	9c 87       	std	Y+12, r25	; 0x0c
+ 21e:	8b 87       	std	Y+11, r24	; 0x0b
+ 220:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 222:	9c 85       	ldd	r25, Y+12	; 0x0c
+ 224:	84 36       	cpi	r24, 0x64	; 100
+ 226:	91 05       	cpc	r25, r1
+ 228:	f8 f2       	brcs	.-66     	; 0x1e8 <main+0xc2>
             if (testArray[j]==i)
             {
                 counter=counter+1;
             }
         }
         border=stelle+counter;
- 21a:	2b 81       	ldd	r18, Y+3	; 0x03
- 21c:	3c 81       	ldd	r19, Y+4	; 0x04
- 21e:	89 81       	ldd	r24, Y+1	; 0x01
- 220:	9a 81       	ldd	r25, Y+2	; 0x02
- 222:	82 0f       	add	r24, r18
- 224:	93 1f       	adc	r25, r19
- 226:	9e 87       	std	Y+14, r25	; 0x0e
- 228:	8d 87       	std	Y+13, r24	; 0x0d
+ 22a:	2b 81       	ldd	r18, Y+3	; 0x03
+ 22c:	3c 81       	ldd	r19, Y+4	; 0x04
+ 22e:	89 81       	ldd	r24, Y+1	; 0x01
+ 230:	9a 81       	ldd	r25, Y+2	; 0x02
+ 232:	82 0f       	add	r24, r18
+ 234:	93 1f       	adc	r25, r19
+ 236:	9e 87       	std	Y+14, r25	; 0x0e
+ 238:	8d 87       	std	Y+13, r24	; 0x0d
         while (stelle<border)
- 22a:	13 c0       	rjmp	.+38     	; 0x252 <main+0x132>
+ 23a:	13 c0       	rjmp	.+38     	; 0x262 <main+0x13c>
         {
             Ergebnis[stelle]=i;
- 22c:	9e 01       	movw	r18, r28
- 22e:	27 52       	subi	r18, 0x27	; 39
- 230:	3f 4f       	sbci	r19, 0xFF	; 255
- 232:	8b 81       	ldd	r24, Y+3	; 0x03
- 234:	9c 81       	ldd	r25, Y+4	; 0x04
- 236:	88 0f       	add	r24, r24
- 238:	99 1f       	adc	r25, r25
- 23a:	82 0f       	add	r24, r18
- 23c:	93 1f       	adc	r25, r19
- 23e:	29 85       	ldd	r18, Y+9	; 0x09
- 240:	3a 85       	ldd	r19, Y+10	; 0x0a
- 242:	fc 01       	movw	r30, r24
- 244:	31 83       	std	Z+1, r19	; 0x01
- 246:	20 83       	st	Z, r18
+ 23c:	9e 01       	movw	r18, r28
+ 23e:	25 52       	subi	r18, 0x25	; 37
+ 240:	3f 4f       	sbci	r19, 0xFF	; 255
+ 242:	8b 81       	ldd	r24, Y+3	; 0x03
+ 244:	9c 81       	ldd	r25, Y+4	; 0x04
+ 246:	88 0f       	add	r24, r24
+ 248:	99 1f       	adc	r25, r25
+ 24a:	82 0f       	add	r24, r18
+ 24c:	93 1f       	adc	r25, r19
+ 24e:	29 85       	ldd	r18, Y+9	; 0x09
+ 250:	3a 85       	ldd	r19, Y+10	; 0x0a
+ 252:	fc 01       	movw	r30, r24
+ 254:	31 83       	std	Z+1, r19	; 0x01
+ 256:	20 83       	st	Z, r18
             stelle=stelle+1;
- 248:	8b 81       	ldd	r24, Y+3	; 0x03
- 24a:	9c 81       	ldd	r25, Y+4	; 0x04
- 24c:	01 96       	adiw	r24, 0x01	; 1
- 24e:	9c 83       	std	Y+4, r25	; 0x04
- 250:	8b 83       	std	Y+3, r24	; 0x03
+ 258:	8b 81       	ldd	r24, Y+3	; 0x03
+ 25a:	9c 81       	ldd	r25, Y+4	; 0x04
+ 25c:	01 96       	adiw	r24, 0x01	; 1
+ 25e:	9c 83       	std	Y+4, r25	; 0x04
+ 260:	8b 83       	std	Y+3, r24	; 0x03
             {
                 counter=counter+1;
             }
         }
         border=stelle+counter;
         while (stelle<border)
- 252:	2b 81       	ldd	r18, Y+3	; 0x03
- 254:	3c 81       	ldd	r19, Y+4	; 0x04
- 256:	8d 85       	ldd	r24, Y+13	; 0x0d
- 258:	9e 85       	ldd	r25, Y+14	; 0x0e
- 25a:	28 17       	cp	r18, r24
- 25c:	39 07       	cpc	r19, r25
- 25e:	30 f3       	brcs	.-52     	; 0x22c <main+0x10c>
+ 262:	2b 81       	ldd	r18, Y+3	; 0x03
+ 264:	3c 81       	ldd	r19, Y+4	; 0x04
+ 266:	8d 85       	ldd	r24, Y+13	; 0x0d
+ 268:	9e 85       	ldd	r25, Y+14	; 0x0e
+ 26a:	28 17       	cp	r18, r24
+ 26c:	39 07       	cpc	r19, r25
+ 26e:	30 f3       	brcs	.-52     	; 0x23c <main+0x116>
         {
             Ergebnis[stelle]=i;
             stelle=stelle+1;
         }
         counter=0;
- 260:	1a 82       	std	Y+2, r1	; 0x02
- 262:	19 82       	std	Y+1, r1	; 0x01
+ 270:	1a 82       	std	Y+2, r1	; 0x02
+ 272:	19 82       	std	Y+1, r1	; 0x01
         if (testArray[i]>limit)
         {
             limit=testArray[i];
         }
     }
     for (uint16_t i=0; i<=limit; i=i+1)
- 264:	89 85       	ldd	r24, Y+9	; 0x09
- 266:	9a 85       	ldd	r25, Y+10	; 0x0a
- 268:	01 96       	adiw	r24, 0x01	; 1
- 26a:	9a 87       	std	Y+10, r25	; 0x0a
- 26c:	89 87       	std	Y+9, r24	; 0x09
- 26e:	29 85       	ldd	r18, Y+9	; 0x09
- 270:	3a 85       	ldd	r19, Y+10	; 0x0a
- 272:	8d 81       	ldd	r24, Y+5	; 0x05
- 274:	9e 81       	ldd	r25, Y+6	; 0x06
- 276:	82 17       	cp	r24, r18
- 278:	93 07       	cpc	r25, r19
- 27a:	08 f0       	brcs	.+2      	; 0x27e <main+0x15e>
- 27c:	aa cf       	rjmp	.-172    	; 0x1d2 <main+0xb2>
- 27e:	80 e0       	ldi	r24, 0x00	; 0
- 280:	90 e0       	ldi	r25, 0x00	; 0
+ 274:	89 85       	ldd	r24, Y+9	; 0x09
+ 276:	9a 85       	ldd	r25, Y+10	; 0x0a
+ 278:	01 96       	adiw	r24, 0x01	; 1
+ 27a:	9a 87       	std	Y+10, r25	; 0x0a
+ 27c:	89 87       	std	Y+9, r24	; 0x09
+ 27e:	29 85       	ldd	r18, Y+9	; 0x09
+ 280:	3a 85       	ldd	r19, Y+10	; 0x0a
+ 282:	8d 81       	ldd	r24, Y+5	; 0x05
+ 284:	9e 81       	ldd	r25, Y+6	; 0x06
+ 286:	82 17       	cp	r24, r18
+ 288:	93 07       	cpc	r25, r19
+ 28a:	08 f0       	brcs	.+2      	; 0x28e <main+0x168>
+ 28c:	aa cf       	rjmp	.-172    	; 0x1e2 <main+0xbc>
             Ergebnis[stelle]=i;
             stelle=stelle+1;
         }
         counter=0;
     }
+    ledWriteAll(0xffff);
+ 28e:	8f ef       	ldi	r24, 0xFF	; 255
+ 290:	9f ef       	ldi	r25, 0xFF	; 255
+ 292:	46 df       	rcall	.-372    	; 0x120 <ledWriteAll>
+ 294:	80 e0       	ldi	r24, 0x00	; 0
+ 296:	90 e0       	ldi	r25, 0x00	; 0
 }
- 282:	c0 56       	subi	r28, 0x60	; 96
- 284:	de 4f       	sbci	r29, 0xFE	; 254
- 286:	0f b6       	in	r0, 0x3f	; 63
- 288:	f8 94       	cli
- 28a:	de bf       	out	0x3e, r29	; 62
- 28c:	0f be       	out	0x3f, r0	; 63
- 28e:	cd bf       	out	0x3d, r28	; 61
- 290:	df 91       	pop	r29
- 292:	cf 91       	pop	r28
- 294:	08 95       	ret
+ 298:	ce 55       	subi	r28, 0x5E	; 94
+ 29a:	de 4f       	sbci	r29, 0xFE	; 254
+ 29c:	0f b6       	in	r0, 0x3f	; 63
+ 29e:	f8 94       	cli
+ 2a0:	de bf       	out	0x3e, r29	; 62
+ 2a2:	0f be       	out	0x3f, r0	; 63
+ 2a4:	cd bf       	out	0x3d, r28	; 61
+ 2a6:	df 91       	pop	r29
+ 2a8:	cf 91       	pop	r28
+ 2aa:	08 95       	ret
 
-00000296 <_exit>:
- 296:	f8 94       	cli
+000002ac <_exit>:
+ 2ac:	f8 94       	cli
 
-00000298 <__stop_program>:
- 298:	ff cf       	rjmp	.-2      	; 0x298 <__stop_program>
+000002ae <__stop_program>:
+ 2ae:	ff cf       	rjmp	.-2      	; 0x2ae <__stop_program>
