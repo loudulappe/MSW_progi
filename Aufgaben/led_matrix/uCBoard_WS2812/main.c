@@ -106,11 +106,11 @@ int main(void)
             counterflag=!counterflag;
         }
         
-        ledline[counter]= (rgb_color){valred, valgreen, valblue};
-        for (uint16_t i=0; i<LED_COUNT; i=i+1)
-        {
-            leds[i]=ledline[i/LEDGROUP];
-        }
+//         ledline[counter]= (rgb_color){valred, valgreen, valblue};
+//         for (uint16_t i=0; i<LED_COUNT; i=i+1)
+//         {
+//             leds[i]=ledline[i/LEDGROUP];
+//         }
 //         set_pixel(2,2,0,0,0, leds);
 //         set_pixel(2,3,0,0,0, leds);
 //         set_pixel(2,4,0,0,0, leds);
@@ -126,6 +126,7 @@ int main(void)
 //         set_pixel(7,3,0,0,0, leds);
 //         set_pixel(6,4,0,0,0, leds);
 //         set_pixel(6,5,0,0,0, leds);
+        
         led_strip_write(leds);
         _delay_ms(systemtakt);
         systemzeit=systemzeit+systemtakt; 
