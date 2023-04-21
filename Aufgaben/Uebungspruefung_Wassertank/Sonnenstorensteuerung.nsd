@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="https://structorizer.fisch.lu" version="3.32-11" preRepeat="until " postFor="to" preReturn="return" postForIn="in" preWhile="while " output="OUTPUT" input="INPUT" preFor="for" preExit="exit" preLeave="leave" ignoreCase="true" preThrow="throw" preForIn="foreach" stepFor="by" namespace="" author="e1Derung" created="2023-04-19" changedby="e1Derung" changed="2023-04-19" origin="Structorizer 3.32-11" text="&#34;Sonnenstorensteuerung&#34;" comment="" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Treiber einfügen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+		<instruction text="&#34;Zustände initialisieren&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+		<instruction text="&#34;Variabeln initialisieren&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+		<instruction text="&#34;Hardware initialisieren&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+		<while text="&#34;Für immer&#34;" comment="" color="ffffff" disabled="0">
+			<qWhile>
+				<instruction text="&#34;Schalter und Buttons einlesen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Flankenerkennung&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+				<alternative text="&#34;sind limit in oder limit out aktiv?&#34;" comment="" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;Flagge für read setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qTrue>
+					<qFalse>
+						<instruction text="&#34;Flagge für read löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qFalse>
+				</alternative>
+				<case text="&#34;Zustand&#34;,&#34;Ausschalten&#34;,&#34;Automatik&#34;,&#34;Manuell&#34;,&#34;Aus&#34;" comment="&#34;Zustand&#34;" color="ffffff" disabled="1">
+					<qCase>
+						<instruction text="&#34;Flagge für out löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+						<alternative text="&#34;Ist Limit in aktiv?&#34;" comment="" color="ffffff" disabled="1">
+							<qTrue>
+								<instruction text="&#34;zustand:aus&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+					<qCase>
+						<instruction text="&#34;Bit für Automatikanzeige in der ausgabe setzen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+						<alternative text="&#34;Flagge für read gesetzt?&#34;" comment="" color="ffffff" disabled="1">
+							<qTrue>
+								<alternative text="&#34;(?)ist sunshine aktiv?&#34;" comment="" color="ffffff" disabled="1">
+									<qTrue>
+										<instruction text="&#34;Flagge für out setzen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qTrue>
+									<qFalse>
+										<instruction text="&#34;Flagge für out löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qFalse>
+								</alternative>
+								<alternative text="&#34;(Automatikschalter auf low?&#34;" comment="" color="ffffff" disabled="1">
+									<qTrue>
+										<instruction text="&#34;Zustand:Manuell&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+										<instruction text="&#34;but für automatikanzeige in der ausgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qTrue>
+									<qFalse color="ffffff">
+									</qFalse>
+								</alternative>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;ist powerschalter low?&#34;" comment="" color="ffffff" disabled="1">
+							<qTrue>
+								<instruction text="&#34;Zustand: ausschalten&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+								<instruction text="&#34;but für automatikanzeige in der ausgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+					<qCase>
+						<instruction text="&#34;Flagge für blinken setzen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+						<alternative text="&#34;Flagge für read gesetzt?&#34;" comment="" color="ffffff" disabled="1">
+							<qTrue>
+								<alternative text="&#34;positive Flanke an buttonout?&#34;" comment="" color="ffffff" disabled="1">
+									<qTrue>
+										<instruction text="&#34;Flagge für out setzen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qTrue>
+									<qFalse color="ffffff">
+									</qFalse>
+								</alternative>
+								<alternative text="&#34;Positive Flanke an buttonin?&#34;" comment="" color="ffffff" disabled="1">
+									<qTrue>
+										<instruction text="&#34;Flagge für out löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qTrue>
+									<qFalse color="ffffff">
+									</qFalse>
+								</alternative>
+								<alternative text="&#34;Automatikschalter auf high?&#34;" comment="" color="ffffff" disabled="1">
+									<qTrue>
+										<instruction text="&#34;Zustand:Automatik&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+										<instruction text="&#34;Flagge für blinken löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qTrue>
+									<qFalse color="ffffff">
+									</qFalse>
+								</alternative>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;ist powerschalter low?&#34;" comment="" color="ffffff" disabled="1">
+							<qTrue>
+								<instruction text="&#34;Zustand: ausschalten&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+								<instruction text="&#34;Flagge für blinken löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+					<qCase>
+						<instruction text="&#34;Flagge für aus setzen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+						<alternative text="&#34;sind POwerschalter und Limit in aktiv? &#34;" comment="" color="ffffff" disabled="1">
+							<qTrue>
+								<alternative text="&#34;ist Automatikschalter aktiv?&#34;" comment="" color="ffffff" disabled="1">
+									<qTrue>
+										<instruction text="&#34;Zustand: Automatisch&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qTrue>
+									<qFalse>
+										<instruction text="&#34;Zustand: Manuell&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+									</qFalse>
+								</alternative>
+								<instruction text="&#34;Flagge für aus löschen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+								<instruction text="&#34;Bit der Poweranzeige in Ausgabe setzen&#34;" comment="" color="ffffff" rotated="0" disabled="1"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+				</case>
+				<alternative text="&#34;ist Flagge für aus gesetzt?&#34;" comment="" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;alle Bits in der Ausgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qTrue>
+					<qFalse>
+						<alternative text="&#34;ist flagge für out gelöscht und limit in low?&#34;" comment="" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34; in der Ausgabe bit für motor in setzen und bit für motor out löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;ist Flagge für out gesetzt und limit out low?&#34;" comment="" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34; in der Ausgabe bit für motor out setzen und bit für motor in löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<instruction text="&#34;bit für motor in und motor out der anzeige löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qFalse>
+				</alternative>
+				<alternative text="&#34;Flagge für blinken gesetzt?&#34;" comment="" color="ffffff" disabled="0">
+					<qTrue>
+						<alternative text="&#34;ist Blinktimer grösser als Blinkperiode?&#34;" comment="" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Blinktimer auf 0 setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;ist blinktimer grösser als die Halbe Blinkperiode?&#34;" comment="" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Bit für Manuellanzeige der Ausgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse>
+								<instruction text="&#34;Bit für Manuellanzeige der Ausgabe Setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qFalse>
+						</alternative>
+					</qTrue>
+					<qFalse>
+						<instruction text="&#34;Bit für Manuellanzeige in der Ausgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+						<instruction text="&#34;Binktimer auf 0 setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qFalse>
+				</alternative>
+				<instruction text="&#34;Ausgabe an LEDs anzeigen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Blinktakt abwarten&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Blinktimer um BLinktakt vergrössern&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>

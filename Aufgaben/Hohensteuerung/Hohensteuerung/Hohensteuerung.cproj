@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Prufung sonnenstorensteuerung</AssemblyName>
-    <Name>Prufung sonnenstorensteuerung</Name>
-    <RootNamespace>Prufung sonnenstorensteuerung</RootNamespace>
+    <AssemblyName>Hohensteuerung</AssemblyName>
+    <Name>Hohensteuerung</Name>
+    <RootNamespace>Hohensteuerung</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
