@@ -90,6 +90,7 @@ int main(void)
             case AUS: 
             anzeige=0;
             flagcontrol=0;
+            flughohe=0;
             if (powerin)
             {
                 zustand=STARTLANDEN;
@@ -114,7 +115,7 @@ int main(void)
                 flaglow=0;
                 blinktimer=0;
             }
-            if (!powerin&&flughohe)
+            if (!powerin&&!flughohe)
             {
                 zustand=AUS;
                 flaglow=0;
@@ -132,7 +133,7 @@ int main(void)
             case SPERRUNG:
             flaglock=1;
             flagcontrol=0;
-            if (cardsensin)
+            if (cardsensin&&!fahrwerkin)
             {
                 zustand=STARTLANDEN;
                 flaglock=0;
