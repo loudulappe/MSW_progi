@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:nsd="https://structorizer.fisch.lu" version="3.32-11" preRepeat="until " postFor="to" preReturn="return" postForIn="in" preWhile="while " output="OUTPUT" input="INPUT" preFor="for" preExit="exit" preLeave="leave" ignoreCase="true" preThrow="throw" preForIn="foreach" stepFor="by" namespace="" author="e1Derung" created="2023-05-10" changedby="e1Derung" changed="2023-05-10" origin="Structorizer 3.32-11" text="&#34;Kampfjet-steuerung&#34;" comment="&#34;&#34;" color="ffffff" type="program" style="nice">
+	<children>
+		<instruction text="&#34;Variabeln initialisieren&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+		<instruction text="&#34;zustände initialisieren&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+		<instruction text="&#34;zustand auf aus setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+		<instruction text="&#34;Hardware initialisieren&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+		<while text="&#34;für immer &#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+			<qWhile>
+				<instruction text="&#34;Schalter und Taster einlesen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Flankenerkennung&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<alternative text="&#34;ist motor an?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;geschwindigkeits-input in geschwindigkeit einspeichern&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qTrue>
+					<qFalse>
+						<alternative text="&#34;(?)ist ingeschwindigkeits-input kleiner als geschwindigkeit?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;geschwindigkeits-input in geschwindigkeit einspeichern&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qFalse>
+				</alternative>
+				<case text="&#34;(?)&#34;,&#34;!Kampf&#34;,&#34;!An/Abflug&#34;,&#34;start&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qCase>
+						<instruction text="&#34;LED für Kampfmodus der Ausgabe setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+						<alternative text="&#34;Positive Flanke an Aufschalten?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Flagge für bereitschaft invertieren&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;Positive Flagge an wechseln?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Raketentyp um 1 vergrössern&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;Blinktimer auf 0 setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;raketentyp grösser als 2?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Raketentyp auf 0 setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;Flag bereitschaft wahr?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<alternative text="&#34;Erfassungssensor high?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+									<qTrue>
+										<instruction text="&#34;Flag für Erfassung setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+									</qTrue>
+									<qFalse>
+										<instruction text="&#34;Flag für Erfassung löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+									</qFalse>
+								</alternative>
+							</qTrue>
+							<qFalse>
+								<instruction text="&#34;Flag für Erfassung löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;Positive Flanke an abfeuern und Flag Erfassung wahr?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Flag für Bereitschaft löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;ist geschwindigkeit unter 8?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Flag für bereitschaft löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;Flag für Erfassung löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;LED für Kampfmodus löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;Zustand auf An/Abflug setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+					<qCase>
+						<instruction text="&#34;An/Abflug-anzeige der Ausgabe setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+						<alternative text="&#34;ist Geschwindigkeit unter 3?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Zustand auf start setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;An/Abflug-anzeige der Ausgabe löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+						<alternative text="&#34;ist Geschwindigkeitüber 7?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;Zustand auf Kampf setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;An/Abflug-anzeige der Ausgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+					<qCase>
+						<instruction text="&#34;Start-LED der Ausgabe setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+						<instruction text="&#34;LED für fahrwerk der Ausgabe setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+						<alternative text="&#34;ist geschwindigkeit über 2?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<instruction text="&#34;zustand auf An/Abflug setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;start-LED der ausgabe löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+								<instruction text="&#34;Fahrwerkanzeige an der Ausgabe löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qTrue>
+							<qFalse color="ffffff">
+							</qFalse>
+						</alternative>
+					</qCase>
+				</case>
+				<alternative text="&#34;Flag für erfassung gesetzt?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+					<qTrue>
+						<instruction text="&#34;LED fürZielerfassung der Anzeige setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+					</qTrue>
+					<qFalse>
+						<alternative text="&#34;Flag für bereitschaft gesetzt?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+							<qTrue>
+								<alternative text="&#34;ist Raketentyp wahr?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+									<qTrue>
+										<alternative text="&#34;ist Raketentyp grösser als 1?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+											<qTrue>
+												<alternative text="&#34;ist Blinktimer über 50?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+													<qTrue>
+														<instruction text="&#34;Zielerfassungs-LED der AUsgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+													</qTrue>
+													<qFalse>
+														<instruction text="&#34;Zielerfassungs-LED der Ausgabe setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+													</qFalse>
+												</alternative>
+												<alternative text="&#34;ist blinktimer über 100?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+													<qTrue>
+														<instruction text="&#34;BLinktimer auf 0 setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+													</qTrue>
+													<qFalse color="ffffff">
+													</qFalse>
+												</alternative>
+											</qTrue>
+											<qFalse>
+												<alternative text="&#34;ist Blinktimer über 100?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+													<qTrue>
+														<instruction text="&#34;Zielerfassungs-LED der AUsgabe löschen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+													</qTrue>
+													<qFalse>
+														<instruction text="&#34;Zielerfassungs-LED der Ausgabe setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+													</qFalse>
+												</alternative>
+												<alternative text="&#34;ist blinktimer über 200?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+													<qTrue>
+														<instruction text="&#34;BLinktimer auf 0 setzen&#34;" comment="" color="ffffff" rotated="0" disabled="0"></instruction>
+													</qTrue>
+													<qFalse color="ffffff">
+													</qFalse>
+												</alternative>
+											</qFalse>
+										</alternative>
+									</qTrue>
+									<qFalse>
+										<alternative text="&#34;ist Blinktimer über 500?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+											<qTrue>
+												<instruction text="&#34;Zielerfassungs-LED der AUsgabe löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+											</qTrue>
+											<qFalse>
+												<instruction text="&#34;Zielerfassungs-LED der Ausgabe setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+											</qFalse>
+										</alternative>
+										<alternative text="&#34;ist blinktimer über 1000?&#34;" comment="&#34;&#34;" color="ffffff" disabled="0">
+											<qTrue>
+												<instruction text="&#34;BLinktimer auf 0 setzen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+											</qTrue>
+											<qFalse color="ffffff">
+											</qFalse>
+										</alternative>
+									</qFalse>
+								</alternative>
+							</qTrue>
+							<qFalse>
+								<instruction text="&#34;LED für Zielerfassung der Anzeige löschen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+							</qFalse>
+						</alternative>
+					</qFalse>
+				</alternative>
+				<instruction text="&#34;Ausgabe an LEDs anzeigen&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;Systemtakt abwarten&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+				<instruction text="&#34;BLinktimer um systemtakt vergrössern&#34;" comment="&#34;&#34;" color="ffffff" rotated="0" disabled="0"></instruction>
+			</qWhile>
+		</while>
+	</children>
+</root>
