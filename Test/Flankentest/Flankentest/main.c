@@ -32,7 +32,7 @@ int main(void)
 
 
 //Ausgabe
-        ledWriteAll(oled);    
+        ledWriteAll(intastneu);    
         
 //Systemtakt
         _delay_ms(systemtakt);
