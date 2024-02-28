@@ -8,3 +8,5 @@ main.c
 
 SPI.c
 
+ws2801.c
+

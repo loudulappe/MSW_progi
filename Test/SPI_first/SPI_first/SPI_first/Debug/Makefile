@@ -39,7 +39,8 @@ SUBDIRS :=
 C_SRCS +=  \
 ../AdvancedDriverMocca.c \
 ../main.c \
-../SPI.c
+../SPI.c \
+../ws2801.c
 
 
 PREPROCESSING_SRCS += 
@@ -51,22 +52,26 @@ ASM_SRCS +=
 OBJS +=  \
 AdvancedDriverMocca.o \
 main.o \
-SPI.o
+SPI.o \
+ws2801.o
 
 OBJS_AS_ARGS +=  \
 AdvancedDriverMocca.o \
 main.o \
-SPI.o
+SPI.o \
+ws2801.o
 
 C_DEPS +=  \
 AdvancedDriverMocca.d \
 main.d \
-SPI.d
+SPI.d \
+ws2801.d
 
 C_DEPS_AS_ARGS +=  \
 AdvancedDriverMocca.d \
 main.d \
-SPI.d
+SPI.d \
+ws2801.d
 
 OUTPUT_FILE_PATH +=SPI_first.elf
 
@@ -97,6 +102,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./SPI.o: .././SPI.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./ws2801.o: .././ws2801.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega2560 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega2560" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

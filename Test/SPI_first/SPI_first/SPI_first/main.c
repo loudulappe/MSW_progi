@@ -1,29 +1,35 @@
-/*********************************************************************************\
+//*********************************************************************************\
 *
-* MMMMMMMMMMMM   SSSSSSSSSSSS   WW   WW   WW   MECHATRONIK
-* MM   MM   MM   SS             WW   WW   WW   SCHULE
-* MM   MM   MM   SSSSSSSSSSSS   WW   WW   WW   WINTERTHUR
-* MM   MM   MM             SS   WW   WW   WW
-* MM   MM   MM   SSSSSSSSSSSS   WWWWWWWWWWWW   www.msw.ch
-*
-*
-* Dateiname: SPI_first
-*
-* Projekt  : SPI_first
-* Hardware : Mocca-Board, ATmega2560v von Atmel
-*
-*
-* Copyright: MSW, AE3
-\*********************************************************************************/
+// * MMMMMMMMMMMM   SSSSSSSSSSSS   WW   WW   WW   MECHATRONIK
+// * MM   MM   MM   SS             WW   WW   WW   SCHULE
+// * MM   MM   MM   SSSSSSSSSSSS   WW   WW   WW   WINTERTHUR
+// * MM   MM   MM             SS   WW   WW   WW
+// * MM   MM   MM   SSSSSSSSSSSS   WWWWWWWWWWWW   www.msw.ch
+// *
+// *
+// * Dateiname: spi_first
+// * Projekt  : spi_first
+// * Hardware : ATmega2560 von Atmel
+// * Copyright: MSW, E3
+// * Beschreibung:
+// * Siehe Prüfungsaufgabe
+// * Portbelegung:
+// * Siehe Hardwarestruktur
+// * Verlauf:
+// * Datum:      Autor:         Version   Grund der Änderung:
+// * 27.02.2024  Adrian Derungs    V1.0       Neuerstelung
+// *
+// \*********************************************************************************/
 
 #include <avr/io.h>
 #define F_CPU 16000000UL
 #include <util/delay.h>
 #include "AdvancedDriverMocca.h"
 #include "SPI.h"
+#include "ws2801.h"
 
 #define     FADESTEP 15
-#define     COLORSTEP 15
+#define     COLORSTEP 7
 
 
 int main(void)
@@ -36,27 +42,28 @@ int main(void)
     uint8_t rink=0;
     uint8_t bink=1;
     uint8_t gink=0;
-    uint8_t ved=FADESTEP;
+    uint8_t ved=15;
     uint8_t vue=172;
     uint8_t veen=172;
-    
+    uint8_t times=0;
+    uint8_t pot=0;
 
     SPI_Masterinit();
     adm_ADC_init();
     while (1)
     {
-
-        for (uint8_t i=0;i<10;i++)
+        pot= (uint32_t)adm_ADC_read(3)/100;
+        for (uint8_t o=0; o<10;o++)
         {
-            SPI_mastertransmit(right[i]);
-            SPI_mastertransmit(bight[i]);
-            SPI_mastertransmit(gight[i]);
+            SPI_mastertransmit(right[o]);
+            SPI_mastertransmit(bight[o]);
+            SPI_mastertransmit(gight[o]);
         }
-        for (uint8_t i=0; i<10; i++)
+         for (uint8_t i=0; i<10; i++)
         {
-            if(pos==i)
+            if(pot==i)
             {
-                right[pos]=ved;
+                right[pot]=ved;
             }
             else
             {
@@ -73,9 +80,9 @@ int main(void)
         
         for (uint8_t i=0; i<10; i++)
         {
-            if(pos==i)
+            if(pot==i)
             {
-                bight[pos]=vue;
+                bight[pot]=vue;
             }
             else
             {
@@ -92,9 +99,9 @@ int main(void)
         
         for (uint8_t i=0; i<10; i++)
         {
-            if(pos==i)
+            if(pot==i)
             {
-                gight[pos]=veen;
+                gight[pot]=veen;
             }
             else
             {
@@ -163,8 +170,7 @@ int main(void)
             veen=veen-COLORSTEP;
         }
         
-        
-        _delay_ms(100);
+              _delay_ms(60);
     }
 }
 

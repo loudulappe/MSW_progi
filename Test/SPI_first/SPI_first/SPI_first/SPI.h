@@ -17,7 +17,7 @@
 // * Siehe Hardwarestruktur
 // * Verlauf:
 // * Datum:      Autor:         Version   Grund der Änderung:
-// * 21.02.2024  Adrian Derungs    V1.0       Neuerstelung
+// * 27.02.2024  Adrian Derungs    V1.0       Neuerstelung
 // *
 // \*********************************************************************************/
 
@@ -36,7 +36,6 @@
 #include <stdint.h>
 void SPI_Masterinit(void);
 void SPI_mastertransmit(uint8_t cData);
-
 
 
 #endif /* SPI_H_ */

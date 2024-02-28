@@ -7,8 +7,8 @@
 // * MM   MM   MM   SSSSSSSSSSSS   WWWWWWWWWWWW   www.msw.ch
 // *
 // *
-// * Dateiname: SPI
-// * Projekt  : SPI
+// * Dateiname: ws2801
+// * Projekt  : ws2801
 // * Hardware : ATmega2560 von Atmel
 // * Copyright: MSW, E3
 // * Beschreibung:
@@ -21,24 +21,12 @@
 // *
 // \*********************************************************************************/
 
-#include <avr/io.h>
-#include "SPI.h"
-#define DDR_SPI DDRB
 
-void SPI_Masterinit (void)
-{
-    //MOSI&clk out, rest in
-    DDR_SPI |= (1<<CLK)|(1<<MOSI)|(1<<SS);
-    //set SPE, MSTR, clk/32 (SPR1, SPI2X)
-    SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR1);
-    SPSR = (1<<SPI2X) ;
-}
-void SPI_mastertransmit(uint8_t cData)
-{
-    //Sample
-    SPDR = cData;
-    //wait til complete
-    while (!(SPSR&(1<<SPIF)))
-    {
-    }
-}
+#ifndef WS2801_H_
+#define WS2801_H_
+#include <stdint.h>
+void ws2801WriteUni (uint8_t anzahl, uint8_t red, uint8_t blue, uint8_t green);
+void ws2801Writesingle (uint8_t anzahl, uint8_t red, uint8_t blue, uint8_t green);
+
+
+#endif /* WS2801_H_ */
