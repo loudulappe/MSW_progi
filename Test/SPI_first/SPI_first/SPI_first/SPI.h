@@ -33,9 +33,18 @@
 #define CLK 1
 #define SS 0
 
+#define FOSC 1843200// Clock Speed
+#define BAUD 9600
+#define MYUBRR (FOSC/16/BAUD-1)
+
+
+
 #include <stdint.h>
 void SPI_Masterinit(void);
 void SPI_mastertransmit(uint8_t cData);
+unsigned char USART_Receive( void );
+void USART_9_Transmit( unsigned int data );
+
 
 
 #endif /* SPI_H_ */

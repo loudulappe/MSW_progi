@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000004ec  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000170  00000000  00000000  0000052c  2**0
+  5 .debug_aranges 00000188  00000000  00000000  0000052c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001ff7  00000000  00000000  0000069c  2**0
+  6 .debug_info   00002065  00000000  00000000  000006b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000fe3  00000000  00000000  00002693  2**0
+  7 .debug_abbrev 00001026  00000000  00000000  00002719  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000f84  00000000  00000000  00003676  2**0
+  8 .debug_line   00001005  00000000  00000000  0000373f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000003dc  00000000  00000000  000045fc  2**2
+  9 .debug_frame  0000040c  00000000  00000000  00004744  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000008c6  00000000  00000000  000049d8  2**0
+ 10 .debug_str    000008fa  00000000  00000000  00004b50  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000012cb  00000000  00000000  0000529e  2**0
+ 11 .debug_loc    00001319  00000000  00000000  0000544a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000140  00000000  00000000  00006569  2**0
+ 12 .debug_ranges 00000158  00000000  00000000  00006763  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -840,6 +840,7 @@ void SPI_mastertransmit(uint8_t cData)
  420:	fd cf       	rjmp	.-6      	; 0x41c <SPI_mastertransmit+0x2>
     {
     }
+}
  422:	08 95       	ret
 
 00000424 <__umulhisi3>:
